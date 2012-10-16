@@ -1,0 +1,33 @@
+body { min-width: 900px; font-family: Georgia; }
+
+#tutorial_list { float: left; width: 25%; height: 700px; overflow: scroll; }
+
+#tutorial_frame { height: 700px; float: right; width: 70%; }
+
+li:hover { background-color:#DDDDDD; }
+
+/* Tutorial Entry Style */
+.trivia, .trivia a { text-decoration:line-through; font-style: italic;}
+.minor, .minor a { font-style: italic; }
+.major, .major a { text-decoration:underline; }
+.vital, .vital a { font-weight: bold; }
+.glance, .glance a { color:#663300; }
+.scan, .scan a { color:#0000FF;  }
+.comprenhend, .comprenhend a {color:#009900; }
+
+/* Tutorial Entry Link Style */
+#tutorial_view_container h1 a { text-decoration: none; }
+#tutorial_view_container li a { color:#000000; text-decoration: none; }
+
+/* Tutorial List Link Style */
+#tutorial_list_container {padding: 30px;}
+#tutorial_list_container li a { text-transform:capitalize;}
+#tutorial_list_container li { font-size: 21px; line-height: 48px;}
+
+
+#actionPanel, #actionPanel div {display: inline; font-size:11px; line-height:12px;}
+#actionPanel div span {width: 70px; display: inline-block;}
+#revise_view_container li { cursor: default; line-height: 32px; }
+
+.error_message { color:#FF0000; font-size: 22px; font-weight: bold;}
+
