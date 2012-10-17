@@ -7,21 +7,22 @@ body { min-width: 900px; font-family: Georgia; }
 li:hover { background-color:#DDDDDD; }
 
 /* Tutorial Entry Style */
-.trivia, .trivia a { text-decoration:line-through; font-style: italic;}
-.minor, .minor a { font-style: italic; }
-.major, .major a { text-decoration:underline; }
-.vital, .vital a { font-weight: bold; }
-.glance, .glance a { color:#663300; }
-.scan, .scan a { color:#0000FF;  }
 .comprenhend, .comprenhend a {color:#009900; }
+.scan, .scan a { color:#0000FF;  }
+.glance, .glance a { color:#663300; }
+.vital, .vital a { font-weight: bold; }
+.major, .major a { text-decoration:underline; }
+.minor, .minor a { font-style: italic; }
+.trivia, .trivia a { text-decoration:line-through; font-style: italic; color:#CCCCCC;}
 
 /* Tutorial Entry Link Style */
 #tutorial_view_container h1 a { text-decoration: none; }
-#tutorial_view_container li a { color:#000000; text-decoration: none; }
+li a { color:#000000; text-decoration: none; }
 
 /* Tutorial List Link Style */
 #tutorial_list_container {padding: 30px;}
-#tutorial_list_container li a { text-transform:capitalize;}
+#tutorial_list_container li a { text-transform:capitalize; color:#0000FF; }
+#tutorial_list_container li:hover a { color:#FF0000; }
 #tutorial_list_container li { font-size: 21px; line-height: 48px;}
 
 
