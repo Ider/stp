@@ -7,13 +7,15 @@ body { min-width: 900px; font-family: Georgia; }
 li:hover { background-color:#DDDDDD; }
 
 /* Tutorial Entry Style */
-.comprenhend, .comprenhend a {color:#009900; }
-.scan, .scan a { color:#0000FF;  }
-.glance, .glance a { color:#663300; }
-.vital, .vital a { font-weight: bold; }
-.major, .major a { text-decoration:underline; }
-.minor, .minor a { font-style: italic; }
-.trivia, .trivia a { text-decoration:line-through; font-style: italic; color:#CCCCCC;}
+.comprenhend, .comprenhend a { text-decoration:underline; font-weight: bold;}
+.scan, .scan a { text-decoration:underline; font-style: italic;}
+.glance, .glance a { text-decoration:underline; }
+
+/* These colors are from google logo */
+.vital, .vital a { color:#DD1812; }
+.major, .major a { color:#0140CA; }
+.minor, .minor a { color:#16A61E; }
+.trivia, .trivia a { color:#FCCA03;}
 
 /* Tutorial Entry Link Style */
 #tutorial_view_container h1 a { text-decoration: none; }
