@@ -23,7 +23,7 @@ if (isset($_GET["tutorial"])) {
     <title>
 <?php 
     if ($showFrame) {
-        echo str_replace('_', ' ', $tutorialName);
+        echo Util::decodeFileName($tutorialName);
     } else {
        echo 'Tutorial List';
     }
