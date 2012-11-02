@@ -6,7 +6,7 @@ $displayer = null;
 $showPanel = false;
 if (isset($_GET["tutorial"])) {
     $tutorialName = Util::encodeFileName($_GET["tutorial"]);
-    $displayer = new RiviseViewDisplay($tutorialName);
+    $displayer = new RiviseViewDisplayer($tutorialName);
     $showPanel = true;
     $containerId = 'revise_view_container';
 
@@ -22,7 +22,7 @@ if (isset($_GET["tutorial"])) {
     <title>
 <?php 
     if ($showPanel) {
-        echo str_replace('_', ' ', $tutorialName);
+        echo Util::decodeFileName($tutorialName);
     } else {
        echo 'Tutorial List';
     }
@@ -81,51 +81,52 @@ function sendServiceQuest() {
     parameters.attributes = $('#attributes').val();
 
     var url = 'revise.php';
-    $.get(url, parameters);
+    $.post(url, parameters);
 }
 
-$('li').hover(function() {
-    $('#normal').attr('checked', 'checked');
-    $('#unread').attr('checked', 'checked');
+(function () {
+    $('li').hover(function() {
+        $('#normal').attr('checked', 'checked');
+        $('#unread').attr('checked', 'checked');
 
-    var attributes = $(this).attr('class').split(' ');
+        var attributes = $(this).attr('class').split(' ');
 
-    for (var index in attributes) {
-        var radioInput = $('#' + attributes[index]);
-        if (radioInput.length > 0) {
-            radioInput.attr('checked', 'checked');
+        for (var index in attributes) {
+            var radioInput = $('#' + attributes[index]);
+            if (radioInput.length > 0) {
+                radioInput.attr('checked', 'checked');
+            }
         }
-    }
 
-    var panel = $('#actionPanel');
-    panel.offset({ top: $(this).offset().top, left: 700 });
+        var panel = $('#actionPanel');
+        panel.offset({ top: $(this).offset().top, left: 700 });
 
-    $('#entryId').val(this.id);
-}, function() {
+        $('#entryId').val(this.id);
+    }, function() {
 
-});
+    });
 
-$('#actionPanel input:radio').click(function () {
-    var importance = $('#importance_selection input:radio:checked').val();
-    var reading = $('#reading_selection input:radio:checked').val();
+    $('input:radio').click(function () {
+        var importance = $('#importance_selection input:radio:checked').val();
+        var reading = $('#reading_selection input:radio:checked').val();
 
-    var listEntry = $('#' + $('#entryId').val());
-    listEntry.attr('class', '');
-    var attributes = '';
-    if (importance != 'normal' ) {
-        listEntry.addClass(importance);
-        attributes += ' ' + importance;
-    }
-    if (reading != 'unread' ) {
-        listEntry.addClass(reading);
-        attributes += ' ' + reading;
-    }
+        var listEntry = $('#' + $('#entryId').val());
+        listEntry.attr('class', '');
+        var attributes = '';
+        if (importance != 'normal' ) {
+            listEntry.addClass(importance);
+            attributes += ' ' + importance;
+        }
+        if (reading != 'unread' ) {
+            listEntry.addClass(reading);
+            attributes += ' ' + reading;
+        }
 
-    $('#attributes').val(attributes);
+        $('#attributes').val(attributes);
 
-    sendServiceQuest();
-});
-
+        sendServiceQuest();
+    });
+})();
 </script>
 <?php } ?>
 </body>

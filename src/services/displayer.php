@@ -1,14 +1,20 @@
 <?php
 include_once 'src/services/connector.php';
 include_once 'src/utilities/util.php';
+include_once 'src/models/tutorial.php';
 
 abstract class DisplayerBase {
 	protected $layout = '';
 
-	//generate layout for display, return bool value to indicate if succeed 
+	/**
+	 * generate layout for display
+	 * @return bool succeed 
+	 */
 	abstract public function generate();
 
-	//show the display layout, usually just simply echo $layout
+	/**
+	 * show the display layout, usually just simply echo $layout
+	 */
 	abstract public function show();
 }
 
@@ -114,7 +120,7 @@ abstract class TutorialDisplayerBase extends DisplayerBase {
 }
 
 class TutorialViewDisplayer extends TutorialDisplayerBase {
-	public $frameName = 'toturial_rame';
+	public $frameName = 'toturial_frame';
 
 	protected function layoutForRootEntry($entry) {
 		return sprintf('<h1><a href="%s" target="%s">%s</a></h1>'.PHP_EOL
@@ -127,7 +133,7 @@ class TutorialViewDisplayer extends TutorialDisplayerBase {
 	}
 	
 	protected function layoutHeaderForSubEntries($entry, $id) {
-		if ($id == $this->entryIdBase) return '<ul id="tutorial_list">';
+		if ($id == $this->entryIdBase) return '<ul id="tutorial_list" class="tutorial_list">';
 		return '<ul>';
 	}
 	
@@ -136,7 +142,7 @@ class TutorialViewDisplayer extends TutorialDisplayerBase {
 	}
 }
 
-class RiviseViewDisplay  extends TutorialDisplayerBase {
+class RiviseViewDisplayer  extends TutorialDisplayerBase {
 
 	protected function layoutForRootEntry($entry) {
 		return sprintf('<h1><a href="reviseview.php?tutorial=%s">%s</a></h1>'.PHP_EOL
@@ -156,10 +162,59 @@ class RiviseViewDisplay  extends TutorialDisplayerBase {
 		return '</ul>';
 	}
 }
+/********************* Option List for Synchronize *********************/
 
-/*
-** Tutorial List Displayer
-*/
+abstract class SyncOptionsDispayer extends DisplayerBase {
+
+	public function generate() {
+		$this->layout = '';
+		$tutorials = $this->loadTutorials();
+		if (empty($tutorials)) return false;
+
+		foreach ($tutorials as $tutorial) {
+        $this->layout .= sprintf('<input type="checkbox" value="%s" title="Updated: %s" id="%s"/>'
+        							, $tutorial->name
+        							, $tutorial->updated_time
+        							, $tutorial->name);
+    	$this->layout .= sprintf('<label for="%s" title="Updated: %s">%s</label><br />'
+    								, $tutorial->name
+    								, $tutorial->updated_time
+    								, Util::decodeFileName($tutorial->name));
+		}
+
+		return true;
+	}
+
+	public function show() {
+		if (empty($this->layout)) $this->generate();
+		echo $this->layout;
+	}
+
+	public function getLayout() {
+		return $this->layout;
+	}
+
+	abstract function loadTutorials();
+}
+
+class DatabaseOptionssDisplayer extends SyncOptionsDispayer {
+	function loadTutorials() {
+        return DatabaseConnector::getTutorialsFromDatabase();   
+	}
+}
+
+class FileOptionssDisplayer extends SyncOptionsDispayer {
+	function loadTutorials() {
+		return FileConnector::getTutorialsFromFile();
+	}
+}
+
+
+/********************* Tutorial List *********************/
+
+/**
+ * Tutorial List Displayer
+ */
 class TutorialListDisplayer extends DisplayerBase{
 	protected $viewURL = '';
 
@@ -169,12 +224,11 @@ class TutorialListDisplayer extends DisplayerBase{
 
 	public function generate() {
 		$this->layout = '';
-		$files = scandir(CONTENT_DIR);
+		$tutorials = FileConnector::getTutorialsFromFile();
 
-		foreach ($files as $file) {
-			if ($file[0] == '.') continue;
-			$name = str_replace('_', ' ', $file);
-			$entryLayout = sprintf('<li><a href="%s?tutorial=%s">%s</a></li>', $this->viewURL, $file, $name);
+		foreach ($tutorials as $tutorial) {
+			$name = str_replace('-', ' ', $tutorial->name);
+			$entryLayout = sprintf('<li><a href="%s?tutorial=%s">%s</a></li>', $this->viewURL, $tutorial->name, $name);
 			$this->layout .= $entryLayout;
 		}
 		if ($this->layout == '') {
@@ -192,9 +246,8 @@ class TutorialListDisplayer extends DisplayerBase{
 	}
 }
 
-/*
-** Error Displayer
-*/
+/********************* Error *********************/
+
 class ErrorDisplayer extends DisplayerBase{
 	public function generate() {
 		return true;

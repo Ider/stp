@@ -32,5 +32,54 @@ li a { color:#000000; text-decoration: none; }
 #actionPanel div span {width: 70px; display: inline-block;}
 #revise_view_container li { cursor: default; line-height: 32px; }
 
-.error_message { color:#FF0000; font-size: 22px; font-weight: bold;}
+.error_message {
+    background-color: #FFC6CA;
+    background-image: url("../res/images/notification-slash.gif");
+    background-position: 20px 20px;
+    background-repeat: no-repeat;
+    border: 1px solid #EFB9C3;
+    display: block;
+    margin-bottom: 20px;
+    padding: 20px 20px 20px 45px;
+    color: #A71700;
+}
 
+.warn_message {
+    background-color: #F9E497;
+    background-image: url("../res/images/notification-exclamation.gif");
+    background-position: 20px 20px;
+    background-repeat: no-repeat;
+    border: 1px solid #FFCB4F;
+    display: block;
+    margin-bottom: 20px;
+    padding: 20px 20px 20px 45px;
+}
+.tutorialName {text-transform:capitalize;}
+
+
+
+
+/* Button Style */
+button.punch {
+    background: none repeat scroll 0 0 #4162A8;
+    border-color: #38538C #1F2D4D #151E33;
+    border-radius: 4px 4px 4px 4px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 1px 10px 1px #5C8BEE inset, 0 1px 0 #1D2C4D, 0 6px 0 #1F3053, 0 8px 4px 1px #111111;
+    color: #FFFFFF;
+    font: bold 16px/1 "Comic Sans MS",helvetica,arial,sans-serif;
+    margin-right: 7px;
+    padding: 7px;
+    text-align: center;
+    text-shadow: 0 -1px 1px #1E2D4D;
+
+}
+button.punch:hover {
+    box-shadow: 0 0 20px 1px #87ADFF inset, 0 1px 0 #1D2C4D, 0 6px 0 #1F3053, 0 8px 4px 1px #111111;
+    cursor: pointer;
+}
+button.punch:active {
+    box-shadow: 0 1px 10px 1px #5C8BEE inset, 0 1px 0 #1D2C4D, 0 2px 0 #1F3053, 0 4px 3px 0 #111111;
+    margin-top: 7px;
+}
