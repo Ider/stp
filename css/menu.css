@@ -1,0 +1,45 @@
+.menu {
+    position: fixed;
+    right: 10px;
+    top: 20px;
+}
+.menu  ul {
+    margin: 0;
+    padding: 0;
+    background-color: #111111;    
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px; 
+    -webkit-box-shadow: 0 8px 6px -6px black;
+       -moz-box-shadow: 0 8px 6px -6px black;
+            box-shadow: 0 8px 6px -6px black;
+
+}
+.menu li {
+    list-style: none;
+    text-align: center;
+    background: none;
+}
+
+.menu li a{
+    color: #FFFFFF;
+    line-height: 20px;
+    font-size: 15px;
+    padding: 5px 20px;
+    display: block;
+    text-shadow: 1px 1px 1px #DDDDDD;
+}
+
+.menu li a:hover {
+
+    background: rgb(125,126,125); /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(125,126,125,1) 0%, rgba(14,14,14,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(125,126,125,1)), color-stop(100%,rgba(14,14,14,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* W3C */
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
