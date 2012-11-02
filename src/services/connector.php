@@ -58,8 +58,8 @@ class DatabaseConnector{
      */
     public static function  getTutorialsFromDatabase() {
         $connector = new DatabaseConnector('Tutorial');
-
-        $query = 'SELECT id, name, created_time, updated_time FROM '.DB_TABLE;
+        $db = DB_TABLE;
+        $query = "SELECT id, name, created_time, updated_time FROM $db order by name";
         return $connector->getArray($query);   
     }
 

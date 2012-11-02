@@ -170,14 +170,15 @@ abstract class SyncOptionsDispayer extends DisplayerBase {
 		$this->layout = '';
 		$tutorials = $this->loadTutorials();
 		if (empty($tutorials)) return false;
-
+		$prefix = $this->getPrefix();
 		foreach ($tutorials as $tutorial) {
-        $this->layout .= sprintf('<input type="checkbox" value="%s" title="Updated: %s" id="%s"/>'
+			$id = $prefix.$tutorial->name;
+        	$this->layout .= sprintf('<input type="checkbox" value="%s" title="Updated: %s" id="%s"/>'
         							, $tutorial->name
         							, $tutorial->updated_time
-        							, $tutorial->name);
-    	$this->layout .= sprintf('<label for="%s" title="Updated: %s">%s</label><br />'
-    								, $tutorial->name
+        							, $id);
+    		$this->layout .= sprintf('<label for="%s" title="Updated: %s">%s</label><br />'
+    								, $id
     								, $tutorial->updated_time
     								, Util::decodeFileName($tutorial->name));
 		}
@@ -194,18 +195,27 @@ abstract class SyncOptionsDispayer extends DisplayerBase {
 		return $this->layout;
 	}
 
-	abstract function loadTutorials();
+	abstract protected function loadTutorials();
+	abstract protected function getPrefix();
 }
 
 class DatabaseOptionssDisplayer extends SyncOptionsDispayer {
-	function loadTutorials() {
+	protected function loadTutorials() {
         return DatabaseConnector::getTutorialsFromDatabase();   
+	}
+
+	protected function getPrefix() {
+		return 'db_';
 	}
 }
 
 class FileOptionssDisplayer extends SyncOptionsDispayer {
-	function loadTutorials() {
+	protected function loadTutorials() {
 		return FileConnector::getTutorialsFromFile();
+	}
+
+	protected function getPrefix() {
+		return 'file_';
 	}
 }
 
