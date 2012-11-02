@@ -4,14 +4,15 @@
         <link rel="stylesheet" type="text/css" href="./css/style.css" />
     </head>
     <body>
-<pre>
-<?php
 
+<?php
+require_once './menu.php';
 include_once 'src/services/synchronizer.php';
 include_once 'src/services/displayer.php';
 include_once 'src/utilities/util.php';
 
 ?>
+<pre>
 <table width="100%" border="1" cellpadding="10">
     <tr><th width="40%">Files</th><th width="20%">Action</th><th width="40%">Database</th><tr>
 
@@ -47,7 +48,6 @@ $displayer->show();
 </pre>
 
 <span id="conTest" class="warn_message"></span>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script type="text/javascript">
 function sync(syncDB) {
     var act = 'syncFile';

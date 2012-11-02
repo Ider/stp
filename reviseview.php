@@ -33,6 +33,7 @@ if (isset($_GET["tutorial"])) {
 <body>
 
 <?php
+    require_once './menu.php';
     echo '<div id="'.$containerId.'">';
 
     if (!$displayer->generate()) {
@@ -46,8 +47,6 @@ if (isset($_GET["tutorial"])) {
 ?>
 
 <?php if ($showPanel) { ?>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
 <div id="actionPanel">
     <div id="importance_selection"> <span>Importance : </span>

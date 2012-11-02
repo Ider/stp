@@ -34,6 +34,8 @@ if (isset($_GET["tutorial"])) {
 <body>
 
 <?php
+    require_once 'menu.php';
+
     echo '<div id="'.$containerId.'">';
 
     if (!$displayer->generate()) {
