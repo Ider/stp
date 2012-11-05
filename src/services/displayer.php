@@ -150,8 +150,15 @@ class ReviseViewDisplayer  extends TutorialDisplayerBase {
 	}
 
 	protected function layoutForEntry($entry, $id) {
-		return sprintf('<li id="%s" class="%s">%s</li>'.PHP_EOL
-			, $id, $entry->attributes, htmlspecialchars($entry->text));
+		$link = htmlspecialchars($entry->link);
+		$description = htmlspecialchars($entry->description);
+		$text = htmlspecialchars($entry->text);
+		$relatives = json_encode($entry->relatives);
+		$entry =<<<EOD
+<li id="$id" class="$entry->attributes" data-link="$link" data-description="$description" data-relatives="$relatives">$text</li>
+EOD;
+
+		return $entry;
 	}
 	
 	protected function layoutHeaderForSubEntries($entry, $id) {
