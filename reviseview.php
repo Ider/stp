@@ -60,7 +60,7 @@ if (isset($_GET["tutorial"])) {
     <div id="reading_selection"> <span>Reading: </span>
         <input name="reading" type="radio" id="unread" value="unread" /><label for="unread">unread</label>
         <input name="reading" type="radio" id="glance" value="glance" /><label for="glance">glance</label>
-        <input name="reading" type="radio" id="scan"  value="scan" /><label for="minor">scan</label>
+        <input name="reading" type="radio" id="scan"  value="scan" /><label for="scan">scan</label>
         <input name="reading" type="radio" id="comprenhend"  value="comprenhend" /><label for="comprenhend">comprenhend</label>
     </div>
 </div>
