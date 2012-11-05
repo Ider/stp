@@ -21,6 +21,21 @@ class Reviser {
 
 		return $entry;
 	}
+	
+	public function setText($entryId, $text) {
+		$entry = $this->getExactEntry($entryId);
+		$entry->text = $text;
+	}
+
+	public function setLink($entryId, $link) {
+		$entry = $this->getExactEntry($entryId);
+		$entry->link = $link;
+	}
+
+	public function setDescription($entryId, $link) {
+		$entry = $this->getExactEntry($entryId);
+		$entry->description = $link;
+	}
 
 	public function setAttibutes($entryId, $attributes) {
 		$entry = $this->getExactEntry($entryId);

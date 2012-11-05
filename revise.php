@@ -25,9 +25,23 @@ if (!$rootEntry) {
 $reviser = new Reviser($rootEntry);
 $revised = false;
 
-if ($act == 'setAttributes') {
-    $attributes = $_REQUEST['attributes'];
-    $reviser->setAttibutes($entryId, $attributes);
+if ($act == 'setText') {
+    $val = $_REQUEST['text'];
+    $reviser->setText($entryId, $val);
+    $revised = true;
+} else if ($act == 'setLink') {
+    error_log($act);
+    $val = $_REQUEST['link'];
+    $reviser->setLink($entryId, $val);
+    $revised = true;
+} else if ($act == 'setDescription') {
+    error_log($act);
+    $val = $_REQUEST['description'];
+    $reviser->setDescription($entryId, $val);
+    $revised = true;
+} else if ($act == 'setAttributes') {
+    $val = $_REQUEST['attributes'];
+    $reviser->setAttibutes($entryId, $val);
     $revised = true;
 }
 
