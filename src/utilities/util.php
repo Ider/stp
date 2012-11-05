@@ -33,4 +33,19 @@ class Util {
     public static function formatDatetime($datetime) {
         return date(self::DATETIME_FORMAT, $datetime);
     }
+
+    public static function stringEscape($str) {
+        $str = str_replace("\x5C", "\x5C\x5C", $str); //back slash
+        $str = str_replace("\x22", "\x5C\x22", $str); //double quote
+        $str = str_replace("\x27", "\x5C\x27", $str); //single quote
+        return $str;
+    }
+
+    public static function stringDescape($str) {
+        $str = str_replace("\\\'", "\'", $str);
+        $str = str_replace("\\\"", "\"", $str);
+        $str = str_replace("\\\\", "\\", $str);
+
+        return $str;
+    }
 }
