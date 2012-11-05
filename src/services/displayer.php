@@ -123,7 +123,7 @@ class TutorialViewDisplayer extends TutorialDisplayerBase {
 	public $frameName = 'toturial_frame';
 
 	protected function layoutForRootEntry($entry) {
-		return sprintf('<h1><a href="%s" target="%s">%s</a></h1>'.PHP_EOL
+		return sprintf('<h1 class="tutorial_root_entry"><a href="%s" target="%s">%s</a></h1>'.PHP_EOL
 			, $entry->link, $this->frameName, htmlspecialchars($entry->text));
 	}
 
@@ -145,7 +145,7 @@ class TutorialViewDisplayer extends TutorialDisplayerBase {
 class RiviseViewDisplayer  extends TutorialDisplayerBase {
 
 	protected function layoutForRootEntry($entry) {
-		return sprintf('<h1><a href="reviseview.php?tutorial=%s">%s</a></h1>'.PHP_EOL
+		return sprintf('<h1 class="tutorial_root_entry"><a href="reviseview.php?tutorial=%s">%s</a></h1>'.PHP_EOL
 			, $this->tutorialName, htmlspecialchars($entry->text));
 	}
 

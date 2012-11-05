@@ -1,10 +1,10 @@
-body { min-width: 900px; font-family: Georgia; }
+body { min-width: 900px; font-family: Georgia;  margin:0;}
 
-#tutorial_list { float: left; width: 25%; height: 700px; overflow: scroll; }
+.tutorial_list { float: left; width: 25%; height: 700px; overflow: scroll; }
 
-#tutorial_frame { height: 700px; float: right; width: 70%; }
+.tutorial_frame { height: 700px; float: right; width: 70%; }
 
-li:hover { background-color:#DDDDDD; }
+.tutorial_entris_view li:hover { background-color:#B4D5FF; }
 
 /* Tutorial Entry Style */
 .comprenhend, .comprenhend a { text-decoration:underline; font-weight: bold;}
@@ -18,18 +18,25 @@ li:hover { background-color:#DDDDDD; }
 .trivia, .trivia a { color:#FCCA03;}
 
 /* Tutorial Entry Link Style */
-#tutorial_view_container h1 a { text-decoration: none; }
+.tutorial_root_entry {
+    background: url("../res/images/title-bg.png") repeat scroll 0 0 transparent;
+    margin: 0;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+.tutorial_root_entry a { text-decoration: none; color: #000000; font-size: 42px;}
 li a { color:#000000; text-decoration: none; }
 
-/* Tutorial List Link Style */
-#tutorial_list_container {padding: 30px;}
-#tutorial_list_container li a { text-transform:capitalize; color:#0000FF; }
-#tutorial_list_container li:hover a { color:#FF0000; }
-#tutorial_list_container li { font-size: 21px; line-height: 48px;}
+/* Tutorials List Link Style */
+.tutorials_list_container {padding: 30px;}
+.tutorials_list_container li a { text-transform:capitalize; color:#0000FF; }
+.tutorials_list_container li:hover { background-color:#B4D5FF; }
+.tutorials_list_container li:hover a { color:#FF0000; }
+.tutorials_list_container li { font-size: 21px; line-height: 48px;}
 
-
-#actionPanel, #actionPanel div {display: inline; font-size:11px; line-height:12px;}
-#actionPanel div span {width: 70px; display: inline-block;}
+/* Action Panel */
+.action_panel, .action_panel div {display: inline; font-size:11px; line-height:12px;}
+.action_panel div span {width: 70px; display: inline-block;}
 #revise_view_container li { cursor: default; line-height: 32px; }
 
 .error_message {

@@ -9,10 +9,12 @@ if (isset($_GET["tutorial"])) {
     $tutorialName = Util::encodeFileName($_GET["tutorial"]);
     $displayer = new TutorialViewDisplayer($tutorialName);
     $showFrame = true;
-    $containerId = 'tutorial_view_container';
+    $containerId = 'tutorial_view_container';  
+    $containerClass = 'tutorial_entris_view';
 } else {
     $displayer = new TutorialListDisplayer($_SERVER['PHP_SELF']);
-    $containerId = 'tutorial_list_container';
+    $containerId = 'tutorials_list_container';  
+    $containerClass = 'tutorials_list_container';
 }
 
 ?>
@@ -36,7 +38,7 @@ if (isset($_GET["tutorial"])) {
 <?php
     require_once 'menu.php';
 
-    echo '<div id="'.$containerId.'">';
+    echo '<div id="'.$containerId.'" class="'.$containerClass.'">';
 
     if (!$displayer->generate()) {
         $showFrame = false;
@@ -46,7 +48,7 @@ if (isset($_GET["tutorial"])) {
     $displayer->show();
 
     if ($showFrame) {
-        $frame = sprintf('<iframe id="tutorial_frame" name="%s" src="%s"></iframe>'
+        $frame = sprintf('<iframe id="tutorial_frame" class="tutorial_frame" name="%s" src="%s"></iframe>'
             , $displayer->frameName, $displayer->rootEntry->link);
         echo $frame;
     }

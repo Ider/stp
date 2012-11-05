@@ -9,10 +9,11 @@ if (isset($_GET["tutorial"])) {
     $displayer = new RiviseViewDisplayer($tutorialName);
     $showPanel = true;
     $containerId = 'revise_view_container';
-
+    $containerClass = 'tutorial_entris_view';
 } else {
     $displayer = new TutorialListDisplayer($_SERVER['PHP_SELF']);
-    $containerId = 'tutorial_list_container';
+    $containerId = 'tutorials_list_container';    
+    $containerClass = 'tutorials_list_container';
 }
 
 ?>
@@ -34,7 +35,7 @@ if (isset($_GET["tutorial"])) {
 
 <?php
     require_once './menu.php';
-    echo '<div id="'.$containerId.'">';
+    echo '<div id="'.$containerId.'" class="'.$containerClass.'">';
 
     if (!$displayer->generate()) {
         $showPanel = false;
@@ -48,7 +49,7 @@ if (isset($_GET["tutorial"])) {
 
 <?php if ($showPanel) { ?>
 
-<div id="actionPanel">
+<div id="actionPanel" class="action_panel">
     <div id="importance_selection"> <span>Importance : </span>
         <input name="importance" type="radio" id="trivia" value="trivia" /><label for="trivia">trivia</label>
         <input name="importance" type="radio" id="minor"  value="minor" /><label for="minor">minor</label>
