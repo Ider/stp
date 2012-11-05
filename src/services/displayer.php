@@ -142,7 +142,7 @@ class TutorialViewDisplayer extends TutorialDisplayerBase {
 	}
 }
 
-class RiviseViewDisplayer  extends TutorialDisplayerBase {
+class ReviseViewDisplayer  extends TutorialDisplayerBase {
 
 	protected function layoutForRootEntry($entry) {
 		return sprintf('<h1 class="tutorial_root_entry"><a href="reviseview.php?tutorial=%s">%s</a></h1>'.PHP_EOL

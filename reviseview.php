@@ -6,7 +6,7 @@ $displayer = null;
 $showPanel = false;
 if (isset($_GET["tutorial"])) {
     $tutorialName = Util::encodeFileName($_GET["tutorial"]);
-    $displayer = new RiviseViewDisplayer($tutorialName);
+    $displayer = new ReviseViewDisplayer($tutorialName);
     $showPanel = true;
     $containerId = 'revise_view_container';
     $containerClass = 'tutorial_entris_view';
