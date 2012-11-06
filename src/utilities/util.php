@@ -1,6 +1,6 @@
 <?php
 
-include_once dirname(__FILE__).'/../config.php';
+include_once 'src/config.php';
 
 class Util {
     protected static $errors = array();
@@ -12,6 +12,14 @@ class Util {
 
     public static function getErrors() {
         return self::$errors;
+    }
+
+    public static function hasErrors() {
+        return !empty(self::$errors);
+    }
+
+    public static function clearErrors() {
+        self::$errors = array();
     }
 
     const FILENAME_DELIMETER = '-';
