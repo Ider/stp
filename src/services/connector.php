@@ -6,10 +6,25 @@ class FileConnector {
 
     private $tutorialName;
     function __construct($tutorialName = '') {
-        $this->tutorialName = $tutorialName;
+        $this->tutorialName = basename($tutorialName);
+    }
+    private function isValidName() {
+        if (empty($this->tutorialName)) {
+            Util::addError('Tutorial name is empty!');
+            return false;
+        }
+        if ($this->tutorialName[0] == '.') {
+            Util::addError('Invalid tutorial name!');
+            return false;
+        }
+        return true;
     }
 
     public function loadEntries() {
+        if (!$this->isValidName()) {
+            return null;
+        }
+
         $filePath = CONTENT_DIR . $this->tutorialName;
         $content = file_get_contents($filePath);
         if ($content === false) {
