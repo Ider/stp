@@ -36,26 +36,29 @@ li a { color:#000000; text-decoration: none; }
 
 /* Action Panel */
 .action_panel {
+    position: absolute;
+    right: 10px;
+    background-color: #111111;
+    border-color: #444444 #1C1C1C #1C1C1C;
+    border-image: none;
+    border-radius: 5px;
+    border-right: 1px solid #1C1C1C;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 1px 0 #727272 inset;
+    color: #FFFFFF;
+    font-size: 12px;
     padding: 0 10px 10px;
-    position: fixed; top:300px; right: 10px; width: 460px;
-    background: rgb(125,126,125); /* Old browsers */
-    background: -moz-linear-gradient(top, rgba(125,126,125,1) 0%, rgba(14,14,14,1) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(125,126,125,1)), color-stop(100%,rgba(14,14,14,1))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* IE10+ */
-    background: linear-gradient(to bottom, rgba(125,126,125,1) 0%,rgba(14,14,14,1) 100%); /* W3C */
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    border-radius: 20px;
-    
-    -webkit-box-shadow: 0 8px 6px -6px black;
-       -moz-box-shadow: 0 8px 6px -6px black;
-            box-shadow: 0 8px 6px -6px black;
+    text-align: left;
+    width: 460px;
+    z-index: 320;
+    border-bottom: 1px solid #727272;
+    font-weight: bold;
+    display: none;
 }
 .action_panel td { color: #FFFFFF; }
 .caption { font-weight: bold; }
-.action_panel input { background-color: #CBCBCB; }
+.action_panel input, .action_panel textarea { background-color: #CBCBCB; resize: none;}
 .action_more_toggler { 
     float: right; 
     font-size: 12px; 
