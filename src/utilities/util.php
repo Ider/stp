@@ -22,6 +22,10 @@ class Util {
         self::$errors = array();
     }
 
+    public static function dumpErrorsToLog() {
+        foreach (self::$errors as $value) error_log($value);
+    }
+
     const FILENAME_DELIMETER = '-';
 
     //trim white space and change space to underline
