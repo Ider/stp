@@ -8,49 +8,75 @@ include_once 'src/config.php';
 $tutorialName = $_REQUEST['tutorial'];
 $act = $_REQUEST['act'];
 $entryId = $_REQUEST['entryId'];
-$display = false;
-if(isset($_REQUEST['display'])) {
-    $display = $_REQUEST['display'];
+$show = false;
+if(isset($_REQUEST['show'])) {
+    $show = $_REQUEST['show'];
 }
 
 $connector = new FileConnector($tutorialName);
 $rootEntry = $connector->loadEntries();
 
+$content_format = ResponseContentFormat::HTML;
+$result_content = '';
+
 if (!$rootEntry) {
-    $display = new ErrorDisplayer();
-    $display->show();
+    $displayer = new ErrorDisplayer();
+    echo ResponseResult::create(ResponseResultState::ERROR, $displayer->layout, $content_format);
     return;
 }
+//$entryId = 'id_1_1_1_1_1_1_1_1'; //test
 
 $reviser = new Reviser($rootEntry);
-$revised = false;
+$revised = true;
 
-if ($act == 'setText') {
-    $val = $_REQUEST['text'];
-    $reviser->setText($entryId, $val);
-    $revised = true;
-} else if ($act == 'setLink') {
-    error_log($act);
-    $val = $_REQUEST['link'];
-    $reviser->setLink($entryId, $val);
-    $revised = true;
-} else if ($act == 'setDescription') {
-    error_log($act);
-    $val = $_REQUEST['description'];
-    $reviser->setDescription($entryId, $val);
-    $revised = true;
-} else if ($act == 'setAttributes') {
-    $val = $_REQUEST['attributes'];
-    $reviser->setAttibutes($entryId, $val);
-    $revised = true;
+switch ($act) {
+    case 'setText':
+        $val = $_REQUEST['text'];
+        $reviser->setText($entryId, $val);
+        break;
+
+    case 'setLink':
+        $val = $_REQUEST['link'];
+        $reviser->setLink($entryId, $val);
+        break;
+
+    case 'setDescription':
+        $val = $_REQUEST['description'];
+        $reviser->setDescription($entryId, $val);
+        break;
+
+    case 'setAttributes':
+        $val = $_REQUEST['attributes'];
+        $reviser->setAttibutes($entryId, $val);
+        break;
+
+    case 'addSubEntries':
+        $val = $_REQUEST['subContent'];
+        $subEntry = $reviser->addSubEntries($entryId, $val);
+        $displayer = new ReviseSubViewDisplayer($subEntry, $entryId);
+        $displayer->generate();
+        $result_content = $displayer->layout;
+
+        break;
+
+    default:
+        $revised = false;
+        break;
 }
 
-if ($display) {
+if ($show) {
     echo var_dump($rootEntry);
+}
+
+if (Util::hasErrors()) {
+    $displayer = new ErrorDisplayer();
+    echo ResponseResult::create(ResponseResultState::ERROR, $displayer->layout, $content_format);
+    $revised = false;
 }
 
 if ($revised) {
     $connector->saveEntries($rootEntry);
 }
 
+echo ResponseResult::create(ResponseResultState::OK, $result_content, $content_format);
 

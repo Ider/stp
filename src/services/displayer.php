@@ -18,6 +18,8 @@ abstract class DisplayerBase {
 	abstract public function show();
 }
 
+/********************* Tutorial Entries Displayer *********************/
+
 abstract class TutorialDisplayerBase extends DisplayerBase {
     protected $tutorialName = '';
 	protected $entryIdBase = 'tutorialEntry_';
@@ -54,7 +56,7 @@ abstract class TutorialDisplayerBase extends DisplayerBase {
 		}
 	}
 
-	public function generate() {		
+	public function generate() {
 		$entry = $this->loadEntries();
 		if (!$entry) return false;
 		
@@ -72,7 +74,7 @@ abstract class TutorialDisplayerBase extends DisplayerBase {
 
 		$index = 0;
 		foreach ($entry->subEntries as $child) {
-			$this->analyze($child, $this->entryIdBase . $index);
+			$this->traverse($child, $this->entryIdBase . $index);
 			$index++;
 		}
 
@@ -81,7 +83,7 @@ abstract class TutorialDisplayerBase extends DisplayerBase {
 		return true;
 	}
 
-	protected function analyze($entry, $id) {
+	protected function traverse($entry, $id) {
 		$entryLayout = $this->layoutForEntry($entry, $id);
 		$this->appendLayout($entryLayout);
 
@@ -92,7 +94,7 @@ abstract class TutorialDisplayerBase extends DisplayerBase {
 
 		$index = 0;
 		foreach ($entry->subEntries as $child) {
-			$this->analyze($child, $id . '_' . $index);
+			$this->traverse($child, $id . '_' . $index);
 			$index++;
 		}
 
@@ -169,6 +171,24 @@ EOD;
 		return '</ul>';
 	}
 }
+
+class ReviseSubViewDisplayer extends ReviseViewDisplayer {
+	private $subRootEntry = null;
+
+	public function __construct($entry, $id) {
+		$this->subRootEntry = $entry;
+		$this->entryIdBase = $id;
+	}
+
+	public function loadEntries() {
+		return $this->subRootEntry;
+	}
+
+	public function layoutForRootEntry($entry) {
+		$this->layoutForEntry($entry, $this->entryIdBase);
+	}
+}
+
 /********************* Option List for Synchronize *********************/
 
 abstract class SyncOptionsDispayer extends DisplayerBase {
@@ -263,19 +283,41 @@ class TutorialListDisplayer extends DisplayerBase{
 	}
 }
 
-/********************* Error *********************/
+/********************* Error Displayer *********************/
 
 class ErrorDisplayer extends DisplayerBase{
+	protected $errors;
+	public function __construct($errors = array()) {
+		if (!is_array($errors) || empty($errors)) 
+			$errors = Util::getErrors();
+
+		$this->errors = $errors;
+	}
+	public function __get($name) {
+		switch ($name) {
+			case 'layout':
+				if (empty($this->layout))$this->generate();
+				return $this->layout;
+				break;
+			
+			default:
+				break;
+		}
+	}
+
 	public function generate() {
+		$this->layout = '';
+		foreach ($this->errors as $error) {
+			$errorMessage = sprintf('<div class="error_message">%s</div>', htmlspecialchars($error));
+			$this->layout .= $errorMessage;
+		}
+
 		return true;
 	}
 
 	public function show() {
-		$errors = Util::getErrors();
-		foreach ($errors as $error) {
-			$errorMessage = sprintf('<div class="error_message">%s</div>', $error);
-			echo $errorMessage;
-		}
+		if (empty($this->layout))$this->generate();
+		echo $this->layout;
 	}
 }
 

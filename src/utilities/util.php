@@ -61,3 +61,38 @@ class Util {
         return $str;
     }
 }
+
+class ResponseResultState {
+    const OK = 0;
+    const ERROR = 1;
+}
+
+class ResponseContentFormat {
+    const JSON = 1;
+    const HTML = 2;
+}
+
+class ResponseResult {
+    protected static $StateToString 
+                        = array(ResponseResultState::OK => 'ok',
+                                ResponseResultState::ERROR=>'error',
+                            );
+    protected static $FormatToString 
+                        = array(ResponseContentFormat::JSON => 'json',
+                                ResponseContentFormat::HTML=>'html',
+                            );
+
+    public static function create($state, $content, $format=ResponseContentFormat::JSON) {
+        $state = self::$StateToString[$state];
+        $format = self::$FormatToString[$format];
+        if (!isset($state) || !isset($format)) return 'error';
+
+        $result 
+            = array('state' => $state,
+                    'content' => $content,
+                    'content_format' => $format,
+                );
+
+        return json_encode($result);
+    }
+}

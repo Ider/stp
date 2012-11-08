@@ -51,7 +51,7 @@ if (isset($_GET["tutorial"])) {
 
 
 
-<div id="actionPanel" class="action_panel">
+<div id="revise_properties_panel" class="action_panel">
 <div id="revise_more_toggler" class="action_more_toggler">less</div>
 <table width="100%">
     <tbody id="revise_more_container" class="more">
@@ -110,8 +110,19 @@ if (isset($_GET["tutorial"])) {
 </table>
 </div>
 
-
-
+<div id="add_subs_panel" class="action_panel">
+    <table>
+        <tr>
+            <td class="caption">Sub Entries</td>
+        </tr>
+        <tr>
+            <td><textarea id="entry_subContent" rows="7" cols="62" name="subContent"></textarea></td>
+        </tr>
+        <tr>
+            <td align="right"><button id="btnAddSubs">Add Subs</button></td>
+        </tr>
+    </table>
+</div>
 
 <div id="reviseService">
     <input id="entry_Id" type="hidden" name="entryId" />
@@ -125,13 +136,17 @@ if (isset($_GET["tutorial"])) {
 
 
 
-(function () {
+(function ($) {
     var entry = null;
     var panel = {
-        entry_Id : $('#entry_Id'),
+        revise_properties_panel: $('#revise_properties_panel'),
+        add_subs_panel: $('#add_subs_panel'),
+
+        entry_Id: $('#entry_Id'),
         entry_text: $('#entry_text'),
         entry_link: $('#entry_link'),
         entry_description: $('#entry_description'),
+        entry_subContent: $('#entry_subContent'),
     };
 
     $('#revise_view_container').find('li').on('click', function() {
@@ -152,23 +167,27 @@ if (isset($_GET["tutorial"])) {
                 radioInput.attr('checked', 'checked');
             }
         }
+        panel.add_subs_panel.show();
+        panel.add_subs_panel.animate({ top: $(this).offset().top}, "slow", "swing");
     });
 
     $('#entry_text').on('change', function() {
         var val = $.trim(this.value);
         if (val.length <= 0) return; //show some error.
-        entry.text(this.value);
-        sendServiceQuest('setText');
+        entry.text(val);
+        sendServiceQuest('setText', {text: val});
     });
 
     $('#entry_link').on('change', function() {
-        entry.data('link', this.value);
-        sendServiceQuest('setLink');
+        var val = $.trim(this.value)
+        entry.data('link', val);
+        sendServiceQuest('setLink', {link: val});
     });
 
     $('#entry_description').on('change', function() {
-        entry.data('description', this.value);
-        sendServiceQuest('setDescription');
+        var val = $.trim(this.value)
+        entry.data('description', val);
+        sendServiceQuest('setDescription', {description: val});
     });
 
     $('input:radio').on('click', function () {
@@ -179,37 +198,43 @@ if (isset($_GET["tutorial"])) {
         if (importance != 'normal' ) entry.addClass(importance)
         if (reading != 'unread' ) entry.addClass(reading);
 
-        sendServiceQuest('setAttributes');
+        sendServiceQuest('setAttributes', { attributes: entry.attr('class')});
     });
 
-    function sendServiceQuest(action) {
-        if (!entry) return;
+    $('#btnAddSubs').on('click', function() {
+        var val = $.trim(panel.entry_subContent.val());
+        if (val.length<= 0) return; //show some error.
+        sendServiceQuest('addSubEntries', {subContent: val});
+    });
 
-        var parameters = {};
+    function sendServiceQuest(action, parameters) {
+        if (!entry) return;
         parameters.tutorial = $('#tutorialName').val();
         parameters.act = action;
         parameters.entryId = entry.attr('id');
-        parameters.text = entry.text();
-        parameters.link = entry.data('link');
-        parameters.description = entry.data('description');
-        parameters.attributes = entry.attr('class');
 
         var url = 'revise.php';
-        $.post(url, parameters);
+        $.post(url, parameters, responseResult);
     }
 
     var revise_more = $('#revise_more_container').hide();
     var toggler = $('#revise_more_toggler').text('more').on('click', function() {
         if(revise_more.is(':hidden')) {
-            revise_more.show();
+            revise_more.fadeIn();
             toggler.text('less');
         } else {
-            revise_more.hide();
+            revise_more.fadeOut();
             toggler.text('more');
         }
     });
+
+    function responseResult(data) {
+        var result = $.parseJSON(data);
+        console.log(result);
+    }
     
-})();
+})(jQuery);
+
 </script>
 <?php } ?>
 </body>
