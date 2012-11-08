@@ -26,9 +26,14 @@ class FileConnector {
         }
 
         $filePath = CONTENT_DIR . $this->tutorialName;
+        if (!is_file($filePath)) {
+            Util::addError('No tutorial file named: ' . $this->tutorialName);
+            return null;
+        }
+
         $content = file_get_contents($filePath);
         if ($content === false) {
-            Util::addError('No tutorial file named: ' . $this->tutorialName);
+            Util::addError('Cannot get content of tutorial file named: ' . $this->tutorialName);
             return null;
         }
         
