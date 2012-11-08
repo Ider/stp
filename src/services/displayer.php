@@ -84,22 +84,28 @@ abstract class TutorialDisplayerBase extends DisplayerBase {
 	}
 
 	protected function traverse($entry, $id) {
+		$open = $this->layoutBeforeEntry($entry, $id);
+		$this->appendLayout($open);
+
 		$entryLayout = $this->layoutForEntry($entry, $id);
 		$this->appendLayout($entryLayout);
 
-		if (!$entry->subEntries) return;
+		if ($entry->subEntries) {
+			$header = $this->layoutHeaderForSubEntries($entry, $id);
+			$this->appendLayout($header);
 
-		$header = $this->layoutHeaderForSubEntries($entry, $id);
-		$this->appendLayout($header);
+			$index = 0;
+			foreach ($entry->subEntries as $child) {
+				$this->traverse($child, $id . '_' . $index);
+				$index++;
+			}
 
-		$index = 0;
-		foreach ($entry->subEntries as $child) {
-			$this->traverse($child, $id . '_' . $index);
-			$index++;
+			$footer = $this->layoutFooterForSubEntries($entry, $id);
+			$this->appendLayout($footer);
 		}
 
-		$footer = $this->layoutFooterForSubEntries($entry, $id);
-		$this->appendLayout($footer);
+		$close = $this->layoutAfterEntry($entry, $id);
+		$this->appendLayout($close);
 	}
 
 	protected function appendLayout($content) {
@@ -112,7 +118,11 @@ abstract class TutorialDisplayerBase extends DisplayerBase {
 	}
 
 	abstract protected function layoutForRootEntry($entry);
+
+	abstract protected function layoutBeforeEntry($entry, $id);
 	abstract protected function layoutForEntry($entry, $id);
+	abstract protected function layoutAfterEntry($entry, $id);
+
 	abstract protected function layoutHeaderForSubEntries($entry, $id);
 	abstract protected function layoutFooterForSubEntries($entry, $id);
 
@@ -125,15 +135,23 @@ class TutorialViewDisplayer extends TutorialDisplayerBase {
 	public $frameName = 'toturial_frame';
 
 	protected function layoutForRootEntry($entry) {
-		return sprintf('<h1 class="tutorial_root_entry"><a href="%s" target="%s">%s</a></h1>'.PHP_EOL
+		return sprintf('<h1 class="tutorial_root_entry"><a href="%s" target="%s">%s</a></h1>'
 			, $entry->link, $this->frameName, htmlspecialchars($entry->text));
+	}
+	
+	protected function layoutBeforeEntry($entry, $id) {
+		return sprintf('<li id="%s">', $id);
 	}
 
 	protected function layoutForEntry($entry, $id) {
-		return sprintf('<li id="%s" class="%s"><a href="%s" target="%s">%s</a></li>'.PHP_EOL
-			, $id, $entry->attributes, $entry->link, $this->frameName, htmlspecialchars($entry->text));
+		return sprintf('<a href="%s" class="%s" target="%s">%s</a>'
+			, $entry->link, $entry->attributes, $this->frameName, htmlspecialchars($entry->text));
 	}
 	
+	protected function layoutAfterEntry($entry, $id) {
+		return '</li>';
+	}
+
 	protected function layoutHeaderForSubEntries($entry, $id) {
 		if ($id == $this->entryIdBase) return '<ul id="tutorial_list" class="tutorial_list">';
 		return '<ul>';
@@ -147,20 +165,27 @@ class TutorialViewDisplayer extends TutorialDisplayerBase {
 class ReviseViewDisplayer  extends TutorialDisplayerBase {
 
 	protected function layoutForRootEntry($entry) {
-		return sprintf('<h1 class="tutorial_root_entry"><a href="reviseview.php?tutorial=%s">%s</a></h1>'.PHP_EOL
+		return sprintf('<h1 class="tutorial_root_entry"><a href="reviseview.php?tutorial=%s">%s</a></h1>'
 			, $this->tutorialName, htmlspecialchars($entry->text));
+	}
+	protected function layoutBeforeEntry($entry, $id) {
+		return '<li>';
 	}
 
 	protected function layoutForEntry($entry, $id) {
+		$text = htmlspecialchars($entry->text);
 		$link = htmlspecialchars($entry->link);
 		$description = htmlspecialchars($entry->description);
-		$text = htmlspecialchars($entry->text);
 		$relatives = json_encode($entry->relatives);
-		$entry =<<<EOD
-<li id="$id" class="$entry->attributes" data-link="$link" data-description="$description" data-relatives="$relatives">$text</li>
+
+		return <<<EOD
+<span id="$id" class="$entry->attributes" class="$entry->attributes" data-link="$link" data-description="$description" data-relatives="$relatives" >$text</span>
 EOD;
 
-		return $entry;
+	}
+	
+	protected function layoutAfterEntry($entry, $id) {
+		return '</li>';
 	}
 	
 	protected function layoutHeaderForSubEntries($entry, $id) {

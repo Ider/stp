@@ -80,11 +80,11 @@ if (isset($_GET["tutorial"])) {
             <td>
                 <div>
                     <div id="importance_selection">
-                        <input name="importance" type="radio" id="trivia" value="trivia" /><label for="trivia" class="trivia">trivia</label>
-                        <input name="importance" type="radio" id="minor"  value="minor" /><label for="minor" class="minor">minor</label>
-                        <input name="importance" type="radio" id="normal"  value="normal" /><label for="normal" class="normal">normal</label>
-                        <input name="importance" type="radio" id="major"  value="major" /><label for="major" class="major">major</label>
-                        <input name="importance" type="radio" id="vital"  value="vital" /><label for="vital" class="vital">vital</label>
+                        <input name="importance" type="radio" id="radio_trivia" value="trivia" /><label for="radio_trivia" class="trivia">trivia</label>
+                        <input name="importance" type="radio" id="radio_minor"  value="minor" /><label for="radio_minor" class="minor">minor</label>
+                        <input name="importance" type="radio" id="radio_normal"  value="normal" /><label for="radio_normal" class="normal">normal</label>
+                        <input name="importance" type="radio" id="radio_major"  value="major" /><label for="radio_major" class="major">major</label>
+                        <input name="importance" type="radio" id="radio_vital"  value="vital" /><label for="radio_vital" class="vital">vital</label>
                     </div>
                 </div>
             </td>
@@ -93,10 +93,10 @@ if (isset($_GET["tutorial"])) {
             <td class="caption">Reading</td>
             <td>
                 <div id="reading_selection">
-                    <input name="reading" type="radio" id="unread" value="unread" /><label for="unread" class="unread">unread</label>
-                    <input name="reading" type="radio" id="glance" value="glance" /><label for="glance" class="glance">glance</label>
-                    <input name="reading" type="radio" id="scan"  value="scan" /><label for="scan" class="scan">scan</label>
-                    <input name="reading" type="radio" id="comprenhend"  value="comprenhend" /><label for="comprenhend" class="comprenhend">comprenhend</label>
+                    <input name="reading" type="radio" id="radio_unread" value="unread" /><label for="radio_unread" class="unread">unread</label>
+                    <input name="reading" type="radio" id="radio_glance" value="glance" /><label for="radio_glance" class="glance">glance</label>
+                    <input name="reading" type="radio" id="radio_scan"  value="scan" /><label for="radio_scan" class="scan">scan</label>
+                    <input name="reading" type="radio" id="radio_comprenhend"  value="comprenhend" /><label for="radio_comprenhend" class="comprenhend">comprenhend</label>
                 </div>
             </td>
         </tr>
@@ -123,7 +123,11 @@ if (isset($_GET["tutorial"])) {
         </tr>
     </table>
 </div>
-
+<div id="action_buttons_panel">
+    <input type="image" src="res/images/edit.gif" id="edit_button"/>
+    <input type="image" src="res/images/add.gif" id="add_button"/>
+    <input type="image" src="res/images/delete.gif" id="delete_button"/>
+</div>
 <div id="reviseService">
     <input id="entry_Id" type="hidden" name="entryId" />
     <input id="act" type="hidden" name="act" value="setAttributes"/>
@@ -137,28 +141,42 @@ if (isset($_GET["tutorial"])) {
 
 
 (function ($) {
-    var entry = null;
-    var panel = {
-        revise_properties_panel: $('#revise_properties_panel'),
-        add_subs_panel: $('#add_subs_panel'),
+    var action_buttons = {
+        entry: null,
+        panel: $('#action_buttons_panel').css('display', 'inline'),
+        edit_button: $('#edit_button'),
+        add_button: $('#add_button'),
+        delete_button: $('#delete_button').hide(),
 
-        entry_Id: $('#entry_Id'),
+        
+    },
+
+    revise_properties = {
+        entry: null,
+        panel: $('#revise_properties_panel'),
         entry_text: $('#entry_text'),
         entry_link: $('#entry_link'),
         entry_description: $('#entry_description'),
+        radio_normal: $('#radio_normal'),
+        radio_unread: $('#radio_unread'),
+    },
+    
+    add_subs = {
+        entry: null,
+        panel: $('#add_subs_panel'),
         entry_subContent: $('#entry_subContent'),
     };
 
-    $('#revise_view_container').find('li').on('click', function() {
-        entry = $('#' + this.id);
+    //hook events on action buttons
+    action_buttons.edit_button.on('click', function() {
+        var entry = action_buttons.entry;
+        revise_properties.entry = entry;
+        revise_properties.entry_text.val(entry.text());
+        revise_properties.entry_link.val(entry.data('link'));
+        revise_properties.entry_description.val(entry.data('description'));
 
-        panel.entry_Id.val(this.id);
-        panel.entry_text.val(entry.text());
-        panel.entry_link.val(entry.data('link'));
-        panel.entry_description.val(entry.data('description'));
-
-        $('#normal').attr('checked', 'checked');
-        $('#unread').attr('checked', 'checked');
+        revise_properties.radio_normal.attr('checked', 'checked');
+        revise_properties.radio_unread.attr('checked', 'checked');
 
         var attributes = entry.attr('class').split(' ');
         for (var index in attributes) {
@@ -167,33 +185,49 @@ if (isset($_GET["tutorial"])) {
                 radioInput.attr('checked', 'checked');
             }
         }
-        panel.add_subs_panel.show();
-        panel.add_subs_panel.animate({ top: $(this).offset().top}, "slow", "swing");
+
+        revise_properties.panel.show();
+        revise_properties.panel.animate({ top: $(this).offset().top}, "slow", "swing");
+    
     });
 
-    $('#entry_text').on('change', function() {
+    action_buttons.add_button.on('click', function() {
+        var entry = action_buttons.entry;
+        add_subs.entry = entry;
+        add_subs.panel.show();
+        add_subs.panel.animate({ top: entry.offset().top}, "slow", "swing");
+    });
+
+    $('#revise_view_container').find('span').on('hover', function() {
+        var entry = $(this);
+        action_buttons.entry = entry;
+        entry.after(action_buttons.panel);
+    });
+
+    //hook events on revise properties
+    revise_properties.entry_text.on('change', function() {
         var val = $.trim(this.value);
         if (val.length <= 0) return; //show some error.
-        entry.text(val);
+        revise_properties.entry.text(val);
         sendServiceQuest('setText', {text: val});
     });
 
-    $('#entry_link').on('change', function() {
+    revise_properties.entry_link.on('change', function() {
         var val = $.trim(this.value)
-        entry.data('link', val);
+        revise_properties.entry.data('link', val);
         sendServiceQuest('setLink', {link: val});
     });
 
-    $('#entry_description').on('change', function() {
+    revise_properties.entry_description.on('change', function() {
         var val = $.trim(this.value)
-        entry.data('description', val);
+        revise_properties.entry.data('description', val);
         sendServiceQuest('setDescription', {description: val});
     });
 
     $('input:radio').on('click', function () {
         var importance = $('#importance_selection input:radio:checked').val();
         var reading = $('#reading_selection input:radio:checked').val();
-
+        var entry = revise_properties.entry;
         entry.attr('class', '');
         if (importance != 'normal' ) entry.addClass(importance)
         if (reading != 'unread' ) entry.addClass(reading);
@@ -202,13 +236,22 @@ if (isset($_GET["tutorial"])) {
     });
 
     $('#btnAddSubs').on('click', function() {
-        var val = $.trim(panel.entry_subContent.val());
+        var val = $.trim(add_subs.entry_subContent.val());
         if (val.length<= 0) return; //show some error.
         sendServiceQuest('addSubEntries', {subContent: val});
     });
 
     function sendServiceQuest(action, parameters) {
+                        console.log(action);
+
+        var entry = null;
+        if (action == 'addSubEntries')
+            entry = add_subs.entry;
+        else 
+            entry = revise_properties.entry;
+
         if (!entry) return;
+
         parameters.tutorial = $('#tutorialName').val();
         parameters.act = action;
         parameters.entryId = entry.attr('id');

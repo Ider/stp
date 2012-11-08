@@ -3,9 +3,9 @@
 
 <div class="menu">
     <ul>
-        <li><a href="tutorialview">Tutorials</a></li>
-        <li><a href="reviseview">Revise</a></li>
-        <li><a href="synchronizeview">Sync</a></li>
+        <li><a href="tutorialview.php">Tutorials</a></li>
+        <li><a href="reviseview.php">Revise</a></li>
+        <li><a href="synchronizeview.php">Sync</a></li>
     </ul>
 </div>
 

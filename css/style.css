@@ -4,18 +4,23 @@ body { min-width: 900px; font-family: Georgia;  margin:0;}
 
 .tutorial_frame { height: 700px; float: right; width: 70%; }
 
-.tutorial_entris_view li:hover { background-color:#B4D5FF; }
+
 
 /* Tutorial Entry Style */
-.comprenhend, .comprenhend a { text-decoration:underline; font-weight: bold;}
-.scan, .scan a { text-decoration:underline; font-style: italic;}
-.glance, .glance a { text-decoration:underline; }
+.tutorial_entris_view li a {display: block;}
+.tutorial_entris_view li a:hover { background-color:#B4D5FF; }
+/* Tutorial Entry Revise Style */
+/*.tutorial_entris_view li span {display: block;}*/
+.tutorial_entris_view li span:hover { background-color:#B4D5FF; }
 
+.comprenhend { text-decoration:underline; font-weight: bold;}
+.scan{ text-decoration:underline; font-style: italic;}
+.glance{ text-decoration:underline; }
 /* These colors are from google logo */
-.vital, .vital a { color:#DD1812; }
-.major, .major a { color:#0140CA; }
-.minor, .minor a { color:#16A61E; }
-.trivia, .trivia a { color:#FCCA03;}
+.vital { color:#DD1812; }
+.major { color:#0140CA; }
+.minor { color:#16A61E; }
+.trivia { color:#FCCA03;}
 
 /* Tutorial Entry Link Style */
 .tutorial_root_entry {
