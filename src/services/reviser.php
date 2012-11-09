@@ -73,6 +73,18 @@ class Reviser {
 		return $entry;
 	}
 
+	public function deleteEntry($parentId, $childIndex) {
+		// //It is going to remove from root
+		// if (!isset($indics[1])) {
+		// 	unset($this->rootEntry[$self]);
+		// 	return $this->rootEntry;
+		// }
+
+		$entry = $this->getExactEntry($parentId);
+		array_splice($entry->subEntries, $childIndex, 1);
+		return $entry;
+	}
+
 	public function getEntriesFromContent($content) {
 		$jsonEntries = json_decode($content);
 		if (!$jsonEntries) {

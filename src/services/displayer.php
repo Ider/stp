@@ -179,7 +179,7 @@ class ReviseViewDisplayer  extends TutorialDisplayerBase {
 		$relatives = json_encode($entry->relatives);
 
 		return <<<EOD
-<span id="$id" class="$entry->attributes" class="$entry->attributes" data-link="$link" data-description="$description" data-relatives="$relatives" >$text</span>
+<span id="$id" class="$entry->attributes" data-link="$link" data-description="$description" data-relatives="$relatives" >$text</span>
 EOD;
 
 	}
@@ -201,6 +201,8 @@ class ReviseSubViewDisplayer extends ReviseViewDisplayer {
 	private $subRootEntry = null;
 
 	public function __construct($entry, $id) {
+		if (substr($id, -1) != '_') $id .= '_';
+
 		$this->subRootEntry = $entry;
 		$this->entryIdBase = $id;
 	}
@@ -210,7 +212,7 @@ class ReviseSubViewDisplayer extends ReviseViewDisplayer {
 	}
 
 	public function layoutForRootEntry($entry) {
-		$this->layoutForEntry($entry, $this->entryIdBase);
+		return $this->layoutForEntry($entry, substr($this->entryIdBase,0 ,-1));
 	}
 }
 

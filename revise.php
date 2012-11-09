@@ -52,13 +52,22 @@ switch ($act) {
 
     case 'addSubEntries':
         $val = $_REQUEST['subContent'];
-        $subEntry = $reviser->addSubEntries($entryId, $val);
-        $displayer = new ReviseSubViewDisplayer($subEntry, $entryId);
+        $entry = $reviser->addSubEntries($entryId, $val);
+        $displayer = new ReviseSubViewDisplayer($entry, $entryId);
         $displayer->generate();
         $result_content = $displayer->layout;
 
         break;
+    case 'deleteEntry':
+        $indics = explode('_', $entryId);
+        $childIndex = array_pop($indics);
+        $parentId = implode('_', $indics);
 
+        $entry = $reviser->deleteEntry($parentId, $childIndex);
+        $displayer = new ReviseSubViewDisplayer($entry, $parentId);
+        $displayer->generate();
+        $result_content = $displayer->layout;
+        break;
     default:
         $revised = false;
         break;
@@ -72,6 +81,7 @@ if (Util::hasErrors()) {
     $displayer = new ErrorDisplayer();
     echo ResponseResult::create(ResponseResultState::ERROR, $displayer->layout, $content_format);
     $revised = false;
+    return;
 }
 
 if ($revised) {

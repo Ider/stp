@@ -63,11 +63,11 @@ li a { color:#000000; text-decoration: none; }
 }
 .action_panel td { color: #FFFFFF; }
 .caption { font-weight: bold; }
-.action_panel input, .action_panel textarea { background-color: #CBCBCB; resize: none;}
+.action_panel input[type=text], .action_panel textarea { background-color: #CBCBCB; resize: none;}
 .action_more_toggler { 
     float: right; 
     font-size: 12px; 
-    margin: 5px 10px 0 0; 
+    margin: 5px 20px 0 0; 
     border-bottom: 1px dashed #DDDDDD;
     cursor: pointer;
     color: #DDDDDD;
@@ -125,3 +125,12 @@ button.punch:active {
     box-shadow: 0 1px 10px 1px #5C8BEE inset, 0 1px 0 #1D2C4D, 0 2px 0 #1F3053, 0 4px 3px 0 #111111;
     margin-top: 7px;
 }
+
+.close_button {
+    background-color: transparent;
+    position: absolute;
+    top: -20px;
+    right: -10px;
+}
+
+
