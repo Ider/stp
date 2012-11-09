@@ -129,13 +129,17 @@ if (isset($_GET["tutorial"])) {
 <div id="action_buttons_panel">
     <input type="image" src="res/images/edit.gif" id="edit_button"/>
     <input type="image" src="res/images/add.gif" id="add_button"/>
-    <input type="image" src="res/images/delete.gif" id="delete_button"/>
+<?php
+    if(isset($_GET['deletable']) && $_GET['deletable'])
+
+        echo '<input type="image" src="res/images/delete.gif" id="delete_button"/>';
+?>
 </div>
 <div id="action_service" style="display: none;">
     <input id="entry_Id" type="hidden" name="entryId" />
     <input id="act" type="hidden" name="act" value="setAttributes"/>
     <input id="entry_attributes" type="hidden" name="entry_attributes" value=""/>
-<?php echo '<input id="tutorialName" type="hidden" name="tutorialName" value="' .$tutorialName. '"/>' ?>
+<?php echo '<input id="tutorialName" type="hidden" name="tutorialName" value="' .$tutorialName. '"/>'; ?>
 </div>
 
 <span id="test" style="position:fixed; top:10px; right:30px;"></span>
