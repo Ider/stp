@@ -22,8 +22,22 @@ body { min-width: 900px; font-family: Georgia;  margin:0;}
 .minor { color:#16A61E; }
 .trivia { color:#FCCA03;}
 
+/* Start New Tutorial Style */
+.start_view_container {
+    padding: 0 40px;
+}
+.start_view_container input[type="text"] {
+    width: 400px;
+}
+
+.start_view_container textarea {
+    width: 400px;
+    height: 200px;
+    resize: none;
+}
+
 /* Tutorial Entry Link Style */
-.tutorial_root_entry {
+.main_title, .tutorial_root_entry {
     background: url("../res/images/title-bg.png") repeat scroll 0 0 transparent;
     margin: 0;
     margin-bottom: 20px;
@@ -63,7 +77,7 @@ li a { color:#000000; text-decoration: none; }
 }
 .action_panel td { color: #FFFFFF; }
 .caption { font-weight: bold; }
-.action_panel input[type=text], .action_panel textarea { background-color: #CBCBCB; resize: none;}
+.action_panel input[type="text"], .action_panel textarea { background-color: #CBCBCB; resize: none;}
 .action_more_toggler { 
     float: right; 
     font-size: 12px; 
