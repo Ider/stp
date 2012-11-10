@@ -3,6 +3,7 @@
 include_once 'src/services/connector.php';
 include_once 'src/services/displayer.php';
 include_once 'src/services/reviser.php';
+include_once 'src/utilities/response.php';
 include_once 'src/config.php';
 
 $tutorialName = $_REQUEST['tutorial'];
@@ -20,8 +21,9 @@ $content_format = ResponseContentFormat::HTML;
 $result_content = '';
 
 if (!$rootEntry) {
-    $displayer = new ErrorDisplayer();
-    echo ResponseResult::create(ResponseResultState::ERROR, $displayer->layout, $content_format);
+    echo ResponseResult::create(ResponseResultState::ERROR
+                    , ResponseContentFormat::COLLECTION
+                    , Util::getErrors());
     return;
 }
 //$entryId = 'id_1_1_1_1_1_1_1_1'; //test
@@ -53,10 +55,12 @@ switch ($act) {
     case 'addSubEntries':
         $val = $_REQUEST['subContent'];
         $entry = $reviser->addSubEntries($entryId, $val);
-        $displayer = new ReviseSubViewDisplayer($entry, $entryId);
-        $displayer->generate();
-        $result_content = $displayer->layout;
-
+        if ($entry) {
+            $displayer = new ReviseSubViewDisplayer($entry, $entryId);
+            $displayer->generate();
+            $result_content = $displayer->layout;
+        }
+        
         break;
     case 'deleteEntry':
         $indics = explode('_', $entryId);
@@ -78,8 +82,9 @@ if ($show) {
 }
 
 if (Util::hasErrors()) {
-    $displayer = new ErrorDisplayer();
-    echo ResponseResult::create(ResponseResultState::ERROR, $displayer->layout, $content_format);
+    echo ResponseResult::create(ResponseResultState::ERROR
+                    , ResponseContentFormat::COLLECTION
+                    , Util::getErrors());
     $revised = false;
     return;
 }
@@ -88,5 +93,7 @@ if ($revised) {
     $connector->saveEntries($rootEntry);
 }
 
-echo ResponseResult::create(ResponseResultState::OK, $result_content, $content_format);
+echo ResponseResult::create(ResponseResultState::OK
+    , ResponseContentFormat::HTML
+    , $result_content);
 

@@ -312,7 +312,7 @@ if (isset($_GET["tutorial"])) {
                    add_subs.entry_subContent.val("");
 
                 } else if (result.state == 'error') {
-
+                    console.log(result);
                 }
             });
     });
