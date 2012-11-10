@@ -64,7 +64,7 @@ class Reviser {
 	}
 
 	public function addSubEntries($entryId, $subContent) {
-		$subEntries = $this->getEntriesFromContent($subContent);
+		$subEntries = TutorialEntry::getEntriesFromContent($subContent);
 		if (!$subEntries) {
 			return null;
 		}
@@ -84,25 +84,4 @@ class Reviser {
 		array_splice($entry->subEntries, $childIndex, 1);
 		return $entry;
 	}
-
-	public function getEntriesFromContent($content) {
-		$jsonEntries = json_decode($content);
-		if (!$jsonEntries) {
-			return null;
-		}
-
-		if (!is_array($jsonEntries)) {
-			$jsonEntries = array($jsonEntries);
-		}
-
-		foreach ($jsonEntries as $jsonEntry) {
-			if (!TutorialEntry::matchingProperties($jsonEntry)) {
-				return null;
-			}
-		}
-
-		return $jsonEntries;
-	}
-
-
 }

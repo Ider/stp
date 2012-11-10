@@ -16,8 +16,27 @@ class TutorialEntry {
         $this->attributes = "";
         $this->relatives = array();
         $this->subEntries = array();
-   }
+    }
 
+    public static function getEntriesFromContent($content) {
+        $jsonEntries = json_decode($content);
+        if (!$jsonEntries) {
+            Util::addError("String is not JSON format.");
+            return null;
+        }
+
+        if (!is_array($jsonEntries)) {
+            $jsonEntries = array($jsonEntries);
+        }
+
+        foreach ($jsonEntries as $jsonEntry) {
+            if (!self::matchingProperties($jsonEntry)) {
+                return null;
+            }
+        }
+
+        return $jsonEntries;
+    }
 
     public static function matchingProperties($jsonEntry) {
         static $prototype = null;
