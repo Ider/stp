@@ -10,7 +10,7 @@ body { min-width: 900px; font-family: Georgia;  margin:0;}
 .tutorial_entris_view li a {display: block;}
 .tutorial_entris_view li a:hover { background-color:#B4D5FF; }
 /* Tutorial Entry Revise Style */
-/*.tutorial_entris_view li span {display: block;}*/
+.tutorial_entris_view li span { cursor: pointer; line-height: 32px; }
 .tutorial_entris_view li span:hover { background-color:#B4D5FF; }
 
 .comprenhend { text-decoration:underline; font-weight: bold;}
@@ -28,12 +28,15 @@ body { min-width: 900px; font-family: Georgia;  margin:0;}
 }
 .start_view_container input[type="text"] {
     width: 400px;
+    height: 25px;
+    font-size: 15px;
 }
 
 .start_view_container textarea {
     width: 400px;
     height: 200px;
     resize: none;
+    font-size: 15px;
 }
 
 /* Tutorial Entry Link Style */
@@ -88,7 +91,21 @@ li a { color:#000000; text-decoration: none; }
 }
 
 /*.action_panel div span {width: 70px; display: inline-block;}*/
-#revise_view_container li { cursor: default; line-height: 32px; }
+
+
+/* Notification Message */
+.validation_error {
+    background-color: #FFC6CA;
+    background-image: url("../res/images/notification-cross.gif");
+    background-position: 5px 5px;
+    background-repeat: no-repeat;
+    border: 1px solid #EFB9C3;
+    display: block;
+    padding: 5px;
+    padding-left: 25px;
+    color: #A71700;
+    font-size: 13px;
+}
 
 .error_message {
     background-color: #FFC6CA;

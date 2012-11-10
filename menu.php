@@ -5,6 +5,7 @@
     <ul>
         <li><a href="tutorialview.php">Tutorials</a></li>
         <li><a href="reviseview.php">Revise</a></li>
+        <li><a href="startview.php">Start</a></li>
         <li><a href="synchronizeview.php">Sync</a></li>
     </ul>
 </div>
