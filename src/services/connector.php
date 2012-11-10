@@ -1,6 +1,7 @@
 <?php
 include_once 'src/config.php';
 include_once 'src/utilities/util.php';
+include_once 'src/models/tutorial.php';
 
 class FileConnector {
 
@@ -8,12 +9,15 @@ class FileConnector {
     function __construct($tutorialName = '') {
         $this->tutorialName = basename($tutorialName);
     }
-    private function isValidName() {
-        if (empty($this->tutorialName)) {
+
+    //TODO: should using regular expression to match.  
+    public static function isValidName($name) {
+        if (empty($name)) {
             Util::addError('Tutorial name is empty!');
             return false;
         }
-        if ($this->tutorialName[0] == '.') {
+
+        if ($name[0] == '.') {
             Util::addError('Invalid tutorial name!');
             return false;
         }
@@ -21,12 +25,12 @@ class FileConnector {
     }
 
     public function loadEntries() {
-        if (!$this->isValidName()) {
+        if (!self::isValidName($this->tutorialName)) {
             return null;
         }
 
         $filePath = CONTENT_DIR . $this->tutorialName;
-        if (!is_file($filePath)) {
+        if (!$this->hasFile($filePath)) {
             Util::addError('No tutorial file named: ' . $this->tutorialName);
             return null;
         }
@@ -44,6 +48,10 @@ class FileConnector {
         $content = json_encode($rootEntry);
         $bytes = file_put_contents(CONTENT_DIR . $this->tutorialName, $content);
         return $bytes;
+    }
+
+    public static function hasFile($name) {
+        return is_file($name);
     }
 
     public static function getTutorialsFromFile() {
