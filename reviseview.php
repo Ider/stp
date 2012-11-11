@@ -126,16 +126,16 @@ if (isset($_GET["tutorial"])) {
     </table>
     <input type="image"src="res/images/close.png" alt="close" class="close_button" />
 </div>
-<div id="action_buttons_panel">
-    <input type="image" src="res/images/edit.gif" id="edit_button"/>
-    <input type="image" src="res/images/add.gif" id="add_button"/>
-<?php
-    if(isset($_GET['deletable']) && $_GET['deletable'])
-
-        echo '<input type="image" src="res/images/delete.gif" id="delete_button"/>';
-?>
-</div>
 <div id="action_service" style="display: none;">
+    <div id="action_buttons_panel">
+        <input type="image" src="res/images/edit.gif" id="edit_button"/>
+        <input type="image" src="res/images/add.gif" id="add_button"/>
+    <?php
+        if(isset($_GET['deletable']) && $_GET['deletable'])
+
+            echo '<input type="image" src="res/images/delete.gif" id="delete_button"/>';
+    ?>
+    </div>
     <input id="entry_Id" type="hidden" name="entryId" />
     <input id="act" type="hidden" name="act" value="setAttributes"/>
     <input id="entry_attributes" type="hidden" name="entry_attributes" value=""/>
