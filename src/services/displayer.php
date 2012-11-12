@@ -274,25 +274,36 @@ class FileOptionssDisplayer extends SyncOptionsDispayer {
 }
 
 
-/********************* Tutorial List *********************/
+/********************* Tutorials List *********************/
 
 /**
  * Tutorial List Displayer
  */
 class TutorialListDisplayer extends DisplayerBase{
-	protected $viewURL = '';
-
-	function __construct($url) {
-		$this->viewURL = $url;
+	protected $deletable = false;
+	function __construct($deletable = false) {
+		$this->deletable = $deletable;
 	}
 
 	public function generate() {
 		$this->layout = '';
 		$tutorials = FileConnector::getTutorialsFromFile();
-
+		$deletebutton = '';
 		foreach ($tutorials as $tutorial) {
-			$name = str_replace('-', ' ', $tutorial->name);
-			$entryLayout = sprintf('<li><a href="%s?tutorial=%s">%s</a></li>', $this->viewURL, $tutorial->name, $name);
+			//$name = str_replace('-', ' ', $tutorial->name);
+			$parameter = '?tutorial='. $tutorial->name;
+			//if ($this->deletable) 
+				$deletebutton = '<input type="image" alt="Remove" name="remove" src="res/images/remove.png" value="'.$tutorial->name.'">';
+			$entryLayout = <<<EOD
+<tr>
+	<td><a href="acquireview.php$parameter">$tutorial->name</a></td>
+	<td>
+		<a href="acquireview.php$parameter" title="Acquire"><img alt="Read" src="res/images/acquire.png"></a>
+		<a href="reviseview.php$parameter" title="Revise"><img alt="Revise" src="res/images/revise.png"></a>
+		$deletebutton
+	</td>
+</tr>
+EOD;
 			$this->layout .= $entryLayout;
 		}
 		if ($this->layout == '') {
@@ -300,12 +311,12 @@ class TutorialListDisplayer extends DisplayerBase{
 			return false;
 		}
 
-		$this->layout = '<ul>'.$this->layout.'</ul>';
+		$this->layout = '<table><thead><tr><th>Tutorial Name</th><th width="170px">Action Options</th></tr></thead><tbody>'
+				.$this->layout.'</tbody></table>';
 		return true;
 	}
 
 	public function show() {
-		echo '<h1>Tutorial List</h1>';
 		echo $this->layout;
 	}
 }

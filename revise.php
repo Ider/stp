@@ -8,28 +8,27 @@ include_once 'src/config.php';
 
 $tutorialName = $_REQUEST['tutorial'];
 $act = $_REQUEST['act'];
-$entryId = $_REQUEST['entryId'];
-$show = false;
-if(isset($_REQUEST['show'])) {
-    $show = $_REQUEST['show'];
+if (isset($_REQUEST['entryId']))$entryId = $_REQUEST['entryId'];
+
+$revised = false;
+if ($act != removeTutorial) {
+    $connector = new FileConnector($tutorialName);
+    $rootEntry = $connector->loadEntries();
+
+    $content_format = ResponseContentFormat::HTML;
+    $result_content = '';
+
+    if (!$rootEntry) {
+        echo ResponseResult::create(ResponseResultState::ERROR
+                        , ResponseContentFormat::COLLECTION
+                        , Util::getErrors());
+        return;
+    }
+
+    $reviser = new Reviser($rootEntry);
+    $revised = true;
 }
 
-$connector = new FileConnector($tutorialName);
-$rootEntry = $connector->loadEntries();
-
-$content_format = ResponseContentFormat::HTML;
-$result_content = '';
-
-if (!$rootEntry) {
-    echo ResponseResult::create(ResponseResultState::ERROR
-                    , ResponseContentFormat::COLLECTION
-                    , Util::getErrors());
-    return;
-}
-//$entryId = 'id_1_1_1_1_1_1_1_1'; //test
-
-$reviser = new Reviser($rootEntry);
-$revised = true;
 
 switch ($act) {
     case 'setText':
@@ -72,14 +71,16 @@ switch ($act) {
         $displayer->generate();
         $result_content = $displayer->layout;
         break;
+    case 'removeTutorial':
+        FileConnector::removeTutorial($tutorialName);
+        break;
+
     default:
+        Util::addError('Cannot response to act: '.$act);
         $revised = false;
         break;
 }
 
-if ($show) {
-    echo var_dump($rootEntry);
-}
 
 if (Util::hasErrors()) {
     echo ResponseResult::create(ResponseResultState::ERROR
@@ -89,9 +90,7 @@ if (Util::hasErrors()) {
     return;
 }
 
-if ($revised) {
-    $connector->saveEntries($rootEntry);
-}
+if ($revised) $connector->saveEntries($rootEntry);
 
 echo ResponseResult::create(ResponseResultState::OK
     , ResponseContentFormat::HTML

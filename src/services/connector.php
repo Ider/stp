@@ -24,32 +24,6 @@ class FileConnector {
         return true;
     }
 
-    public function loadEntries() {
-        if (!self::isValidName($this->tutorialName)) {
-            return null;
-        }
-
-        $filePath = CONTENT_DIR . $this->tutorialName;
-        if (!$this->hasFile($filePath)) {
-            Util::addError('No tutorial file named: ' . $this->tutorialName);
-            return null;
-        }
-
-        $content = file_get_contents($filePath);
-        if ($content === false) {
-            Util::addError('Cannot get content of tutorial file named: ' . $this->tutorialName);
-            return null;
-        }
-        
-        return json_decode($content);
-    }
-
-    public function saveEntries($rootEntry) {
-        $content = json_encode($rootEntry);
-        $bytes = file_put_contents(CONTENT_DIR . $this->tutorialName, $content);
-        return $bytes;
-    }
-
     public static function hasFile($name) {
         return is_file($name);
     }
@@ -70,6 +44,42 @@ class FileConnector {
             $tutorials[] = $tutorial;
         }
         return $tutorials;
+    }
+
+    public static function removeTutorial($tutorialName) {
+        if (!self::isValidName($tutorialName)) return false;
+        if (!unlink(CONTENT_DIR.$tutorialName)) {
+            Util::addError('Unable to remove tutorial: '.$tutorialName.'. The file may no longer exists');
+            return false;
+        }
+
+        return true;
+    }
+
+    public function loadEntries() {
+        if (!self::isValidName($this->tutorialName)) {
+            return null;
+        }
+
+        $filePath = CONTENT_DIR . $this->tutorialName;
+        if (!self::hasFile($filePath)) {
+            Util::addError('No tutorial file named: ' . $this->tutorialName);
+            return null;
+        }
+
+        $content = file_get_contents($filePath);
+        if ($content === false) {
+            Util::addError('Cannot get content of tutorial file named: ' . $this->tutorialName);
+            return null;
+        }
+        
+        return json_decode($content);
+    }
+
+    public function saveEntries($rootEntry) {
+        $content = json_encode($rootEntry);
+        $bytes = file_put_contents(CONTENT_DIR . $this->tutorialName, $content);
+        return $bytes;
     }
 }
 
