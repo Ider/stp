@@ -118,6 +118,7 @@ $tutorialName = $_GET["tutorial"];
     </table>
     <input type="image"src="res/images/close.png" alt="close" class="close_button" />
 </div>
+
 <div id="action_service" style="display: none;">
     <div id="action_buttons_panel">
         <input type="image" src="res/images/edit.gif" id="edit_button"/>
@@ -133,7 +134,7 @@ $tutorialName = $_GET["tutorial"];
 <?php echo '<input id="tutorialName" type="hidden" name="tutorialName" value="' .$tutorialName. '"/>'; ?>
 </div>
 
-<span id="test" style="position:fixed; top:10px; right:30px;"></span>
+<div id="error_summary" style="position:fixed; bottom:0px; right:0px; display:none;" class="error_message" title="Click to dismiss"></div>
 <script type="text/javascript">
 
 
@@ -146,7 +147,6 @@ $tutorialName = $_GET["tutorial"];
         edit_button: $('#edit_button'),
         add_button: $('#add_button'),
         delete_button: $('#delete_button'),
-
         secure: function() {
             //when delete add sub, the panel will be removed, then button will be
             //recreated when hover, however the events will lost
@@ -169,6 +169,7 @@ $tutorialName = $_GET["tutorial"];
         panel: $('#add_subs_panel'),
         entry_subContent: $('#entry_subContent'),
     };
+
 
     //hook events on action buttons
     action_buttons.edit_button.on('click', function() {
@@ -232,7 +233,7 @@ $tutorialName = $_GET["tutorial"];
                    add_subs.entry_subContent.val("");
 
                 } else if (result.state == 'error') {
-
+                    showError(result);
                 }
             });
         
@@ -303,7 +304,8 @@ $tutorialName = $_GET["tutorial"];
                    add_subs.entry_subContent.val("");
 
                 } else if (result.state == 'error') {
-                    console.log(result);
+                    showError(result);
+
                 }
             });
     });
@@ -328,6 +330,12 @@ $tutorialName = $_GET["tutorial"];
         $.post(url, parameters, callback);
     }
 
+    var error_summary = $('#error_summary').on('click', function() {
+        this.style.display = 'none';
+    });
+    function showError(result) {
+        error_summary.text(result.content.join('<br />')).fadeIn();
+    }
     
 })(jQuery);
 

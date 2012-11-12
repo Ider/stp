@@ -11,12 +11,16 @@ $act = $_REQUEST['act'];
 if (isset($_REQUEST['entryId']))$entryId = $_REQUEST['entryId'];
 
 $revised = false;
-if ($act != removeTutorial) {
+$needLoadEntry = array(
+                'setText' => true,
+                'setLink' => true,
+                'setDescription' => true,
+                'setAttributes' => true,
+                'addSubEntries' => true,
+                );
+if (isset($needLoadEntry[$act])) {
     $connector = new FileConnector($tutorialName);
     $rootEntry = $connector->loadEntries();
-
-    $content_format = ResponseContentFormat::HTML;
-    $result_content = '';
 
     if (!$rootEntry) {
         echo ResponseResult::create(ResponseResultState::ERROR
@@ -28,6 +32,8 @@ if ($act != removeTutorial) {
     $reviser = new Reviser($rootEntry);
     $revised = true;
 }
+
+$result_content = '';
 
 
 switch ($act) {
