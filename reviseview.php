@@ -7,6 +7,8 @@ if (!isset($_GET["tutorial"])) {
     exit();
 }
 
+$tutorialName = $_GET["tutorial"];
+
 ?>
 
 <html>
@@ -23,7 +25,6 @@ if (!isset($_GET["tutorial"])) {
 <?php
     require_once './menu.php';
 
-    $tutorialName = Util::encodeFileName($_GET["tutorial"]);
     $displayer = new ReviseViewDisplayer($tutorialName);
     $showPanel = true;
     echo '<div id="revise_view_container" class="tutorial_entris_view">';
@@ -122,8 +123,7 @@ if (!isset($_GET["tutorial"])) {
         <input type="image" src="res/images/edit.gif" id="edit_button"/>
         <input type="image" src="res/images/add.gif" id="add_button"/>
     <?php
-        if(isset($_GET['deletable']) && $_GET['deletable'])
-
+        if($deletable)
             echo '<input type="image" src="res/images/delete.gif" id="delete_button"/>';
     ?>
     </div>

@@ -1,2 +1,2 @@
 <?php
-include_once 'tutorialview.php';
+include_once 'tutorialsview.php';

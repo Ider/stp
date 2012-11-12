@@ -11,10 +11,6 @@
 include_once 'src/services/displayer.php';
 require_once 'menu.php';
 
-$deletable = false;
-if (isset($_GET['deletable']))
-    $deletable = $_GET['deletable'];
-
 $displayer = new TutorialListDisplayer($deletable);
 if (!$displayer->generate())
     $displayer = new ErrorDisplayer();

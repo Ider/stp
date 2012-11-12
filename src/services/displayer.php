@@ -292,7 +292,7 @@ class TutorialListDisplayer extends DisplayerBase{
 		foreach ($tutorials as $tutorial) {
 			//$name = str_replace('-', ' ', $tutorial->name);
 			$parameter = '?tutorial='. $tutorial->name;
-			//if ($this->deletable) 
+			if ($this->deletable) 
 				$deletebutton = '<input type="image" alt="Remove" name="remove" src="res/images/remove.png" value="'.$tutorial->name.'">';
 			$entryLayout = <<<EOD
 <tr>
