@@ -2,19 +2,10 @@
 include_once 'src/services/displayer.php';
 include_once 'src/utilities/util.php';
 
-$displayer = null;
 $showFrame = false;
-$containerId = '';
-if (isset($_GET["tutorial"])) {
-    $tutorialName = Util::encodeFileName($_GET["tutorial"]);
-    $displayer = new TutorialViewDisplayer($tutorialName);
-    $showFrame = true;
-    $containerId = 'tutorial_view_container';  
-    $containerClass = 'tutorial_entris_view';
-} else {
-    $displayer = new TutorialListDisplayer($_SERVER['PHP_SELF']);
-    $containerId = 'tutorials_list_container';  
-    $containerClass = 'tutorials_list_container';
+if (!isset($_GET["tutorial"])) {
+    header('Location: tutorialsview.php');
+    exit();
 }
 
 ?>
@@ -24,11 +15,7 @@ if (isset($_GET["tutorial"])) {
 <head>
     <title>
 <?php 
-    if ($showFrame) {
-        echo Util::decodeFileName($tutorialName);
-    } else {
-       echo 'Tutorial List';
-    }
+    echo Util::decodeFileName($tutorialName);
 ?>
     </title>
     <link rel="stylesheet" type="text/css" href="./css/style.css" />
@@ -37,8 +24,11 @@ if (isset($_GET["tutorial"])) {
 
 <?php
     require_once 'menu.php';
-
-    echo '<div id="'.$containerId.'" class="'.$containerClass.'">';
+    $tutorialName = Util::encodeFileName($_GET["tutorial"]);
+    $displayer = new TutorialViewDisplayer($tutorialName);
+    $showFrame = true;
+    
+    echo '<div id="tutorial_view_container" class="tutorial_entris_view">';
 
     if (!$displayer->generate()) {
         $showFrame = false;
