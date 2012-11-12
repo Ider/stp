@@ -50,11 +50,24 @@ body { min-width: 900px; font-family: Georgia;  margin:0;}
 li a { color:#000000; text-decoration: none; }
 
 /* Tutorials List Link Style */
-.tutorials_list_container {padding: 30px;}
-.tutorials_list_container li a { text-transform:capitalize; color:#0000FF; }
-.tutorials_list_container li:hover { background-color:#B4D5FF; }
-.tutorials_list_container li:hover a { color:#FF0000; }
-.tutorials_list_container li { font-size: 21px; line-height: 48px;}
+.tutorials_list_container {padding: 10px;}
+.tutorials_list_container table {width: 100%;  border-spacing: 0;}
+.tutorials_list_container td { text-align: center;}
+.tutorials_list_container tbody tr:nth-child(odd) { background:#FFFFFF; }
+.tutorials_list_container tbody tr:nth-child(even) { background:#F1F5FA; }
+.tutorials_list_container thead tr{ 
+    color:#FFFFFF; 
+    background: #4c4c4c; /* Old browsers */
+    background: -moz-linear-gradient(top,  #4c4c4c 0%, #595959 12%, #666666 25%, #474747 39%, #2c2c2c 50%, #000000 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%, #131313 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4c4c4c), color-stop(12%,#595959), color-stop(25%,#666666), color-stop(39%,#474747), color-stop(50%,#2c2c2c), color-stop(51%,#000000), color-stop(60%,#111111), color-stop(76%,#2b2b2b), color-stop(91%,#1c1c1c), color-stop(100%,#131313)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #4c4c4c 0%,#595959 12%,#666666 25%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #4c4c4c 0%,#595959 12%,#666666 25%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #4c4c4c 0%,#595959 12%,#666666 25%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #4c4c4c 0%,#595959 12%,#666666 25%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%); /* W3C */
+    height: 32px;
+}
+.tutorials_list_container td a { text-decoration:none; color:#0000FF; font-size: 16px;}
+.tutorials_list_container td a:hover { color:#FF0000; }
 
 /* Action Panel */
 .action_panel {
