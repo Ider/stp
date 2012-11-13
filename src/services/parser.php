@@ -1,21 +1,20 @@
 <?php
 
 include_once 'src/models/entry.php';
-include_once 'src/untilities/util.php';
+include_once 'src/utilities/util.php';
 
 abstract class ParserBase {
 
-	protected $homeURL = '';
+	public $homeURL = '';
 
-	public function parse($content, $mainEntryText, $mainURL='', $homeURL='') {
+	public function parse($content) {
 		$doc = new DOMDocument();
 		$doc->loadHTML($content);
 
-		$mainEntry = new TodoEntry();
-		$mainEntry->text = $mainEntryText;
-		$mainEntry->link = $mainURL;
+		$mainEntry = new TutorialEntry();
+		$mainEntry->text = "";
+		$mainEntry->link = "";
  		
- 		$this->homeURL = $homeURL;
 
 		//DOMDocument contains two children, the first child is HTML description
 		//the second child is the real HTML content
@@ -24,7 +23,7 @@ abstract class ParserBase {
 		return $mainEntry;
 	}	
 
-	protected function analyze(DOMNode $node, TodoEntry $entry) {
+	protected function analyze(DOMNode $node, TutorialEntry $entry) {
 		if ($node->nodeName == 'li') {
 			$subEntry = $this->getEntry($node);
 			if (!$subEntry) {
@@ -57,7 +56,7 @@ class AndroidTutorialParser extends ParserBase {
 
 		if ($textNode->nodeType != XML_TEXT_NODE) Util::addError('Not a XML_TEXT_NODE');
 
-		$entry = new TodoEntry();
+		$entry = new TutorialEntry();
 
 		$entry->link = $this->homeURL.$linkNode->attributes->getNamedItem('href')->nodeValue;
 		$entry->text = trim($textNode->nodeValue);
