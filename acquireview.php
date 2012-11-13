@@ -7,7 +7,7 @@ if (!isset($_GET["tutorial"])) {
     header('Location: tutorialsview.php');
     exit();
 }
-
+$tutorialName = $_GET["tutorial"];
 ?>
 
 
@@ -24,7 +24,6 @@ if (!isset($_GET["tutorial"])) {
 
 <?php
     require_once 'menu.php';
-    $tutorialName = Util::encodeFileName($_GET["tutorial"]);
     $displayer = new TutorialViewDisplayer($tutorialName);
     $showFrame = true;
     

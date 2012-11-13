@@ -1,8 +1,9 @@
 body { min-width: 900px; font-family: Georgia;  margin:0;}
 
-.tutorial_list { float: left; width: 25%; height: 700px; overflow: scroll; }
-
-.tutorial_frame { height: 700px; float: right; width: 70%; }
+.tutorial_entries_list {  width: 30%; height: 90%; overflow: auto; position: absolute;}
+.tutorial_entries_list ul { margin: 0; }
+/* .tutorial_entries_list li { white-space: nowrap;}*/
+.tutorial_frame { height: 90%; position: absolute; right: 0;  width: 70%; }
 
 
 
@@ -12,6 +13,7 @@ body { min-width: 900px; font-family: Georgia;  margin:0;}
 /* Tutorial Entry Revise Style */
 .tutorial_entris_view li span { cursor: pointer; line-height: 32px; }
 .tutorial_entris_view li span:hover { background-color:#B4D5FF; }
+.tutorial_entry_container .action_buttons_container {display: inline;}
 
 .comprenhend { text-decoration:underline; font-weight: bold;}
 .scan{ text-decoration:underline; font-style: italic;}

@@ -6,16 +6,11 @@ include_once 'src/services/connector.php';
 
 class Starter {
     public static function validateName($tutorialName) {
-                        error_log("here1");
-
         if (!FileConnector::isValidName($tutorialName)) return false;
-                        error_log("here2");
-
         if (FileConnector::hasFile(CONTENT_DIR.$tutorialName)) {
             Util::addError('File already exists.');
             return false;
         }
-                            error_log("here3");
         return true;                    
     }
 

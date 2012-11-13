@@ -164,7 +164,7 @@ require_once './menu.php';
             if (result.state == 'error')
                 summary_error.text(result.content.join('<br />')).show();
             else if (result.state == 'ok')
-                window.location = 'tutorialview.php?tutorial=' + parameters.tutorialName;
+                window.location = 'acquireview.php?tutorial=' + parameters.tutorialName;
         });
         return false;
     });

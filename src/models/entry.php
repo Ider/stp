@@ -21,6 +21,7 @@ class TutorialEntry {
     public static function getEntriesFromContent($content) {
         $jsonEntries = json_decode($content);
         if (!$jsonEntries) {
+            error_log(json_last_error ());
             Util::addError("String is not JSON format.");
             return null;
         }

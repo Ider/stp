@@ -5,6 +5,7 @@ include_once 'src/services/displayer.php';
 include_once 'src/services/reviser.php';
 include_once 'src/utilities/response.php';
 include_once 'src/config.php';
+include_once 'security.php';
 
 $tutorialName = $_REQUEST['tutorial'];
 $act = $_REQUEST['act'];
@@ -17,6 +18,7 @@ $needLoadEntry = array(
                 'setDescription' => true,
                 'setAttributes' => true,
                 'addSubEntries' => true,
+                'deleteEntry' => true,
                 );
 if (isset($needLoadEntry[$act])) {
     $connector = new FileConnector($tutorialName);
