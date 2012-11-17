@@ -2,6 +2,7 @@
     position: fixed;
     right: 10px;
     top: 20px;
+    z-index: 21;
 }
 .menu  ul {
     margin: 0;
