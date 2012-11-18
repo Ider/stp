@@ -153,16 +153,23 @@ class TutorialViewDisplayer extends TutorialDisplayerBase {
 	}
 
 	protected function layoutHeaderForSubEntries($entry, $id) {
-		if ($id == $this->entryIdBase) return '<ul id="tutorial_list" class="tutorial_list">';
+		if ($id == $this->entryIdBase) return '<div id="tutorial_entries_list" class="tutorial_entries_list"><ul>';
 		return '<ul>';
 	}
 	
 	protected function layoutFooterForSubEntries($entry, $id) {
+		if ($id == $this->entryIdBase) return '</ul></div>';
 		return '</ul>';
 	}
 }
 
 class ReviseViewDisplayer  extends TutorialDisplayerBase {
+	protected $deletable = false;
+
+	function __construct($tutorialName = '', $deletable) { 
+		parent::__construct($tutorialName);
+		$this->deletable = $deletable;
+	}
 
 	protected function layoutForRootEntry($entry) {
 		return sprintf('<h1 class="tutorial_root_entry"><a href="reviseview.php?tutorial=%s">%s</a></h1>'
@@ -177,11 +184,21 @@ class ReviseViewDisplayer  extends TutorialDisplayerBase {
 		$link = htmlspecialchars($entry->link);
 		$description = htmlspecialchars($entry->description);
 		$relatives = json_encode($entry->relatives);
-
-		return <<<EOD
-<span id="$id" class="$entry->attributes" data-link="$link" data-description="$description" data-relatives="$relatives" >$text</span>
+		$deleteBtn ="";
+		if($this->deletable)
+            $deleteBtn = '<input type="image" src="res/images/delete.gif" value="'.$id.'" name="deleteEntry"/>';
+    
+		$dom = <<<EOD
+<div class="tutorial_entry_container">
+	<span id="$id" class="$entry->attributes" data-link="$link" data-description="$description" data-relatives="$relatives" >$text</span>
+	<div class="action_buttons_container">
+        <input type="image" src="res/images/edit.gif" value="$id" name="editEntry"/>
+        <input type="image" src="res/images/add.gif" value="$id" name="addSubs"/>
+        $deleteBtn
+    </div>
+</div>
 EOD;
-
+		return $dom;
 	}
 	
 	protected function layoutAfterEntry($entry, $id) {

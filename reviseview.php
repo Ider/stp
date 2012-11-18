@@ -25,7 +25,7 @@ $tutorialName = $_GET["tutorial"];
 <?php
     require_once './menu.php';
 
-    $displayer = new ReviseViewDisplayer($tutorialName);
+    $displayer = new ReviseViewDisplayer($tutorialName, $deletable);
     $showPanel = true;
     echo '<div id="revise_view_container" class="tutorial_entris_view">';
 
@@ -140,21 +140,7 @@ $tutorialName = $_GET["tutorial"];
 
 
 (function ($) {
-    var action_service = $('#action_service'),
-    action_buttons = {
-        entry: null,
-        panel: $('#action_buttons_panel').css('display', 'inline'),
-        edit_button: $('#edit_button'),
-        add_button: $('#add_button'),
-        delete_button: $('#delete_button'),
-        secure: function() {
-            //when delete add sub, the panel will be removed, then button will be
-            //recreated when hover, however the events will lost
-            action_service.append(action_buttons.panel);
-        },
-    },
-
-    revise_properties = {
+    var revise_properties = {
         entry: null,
         panel: $('#revise_properties_panel'),
         entry_text: $('#entry_text'),
@@ -171,73 +157,94 @@ $tutorialName = $_GET["tutorial"];
     };
 
 
-    //hook events on action buttons
-    action_buttons.edit_button.on('click', function() {
-        var entry = action_buttons.entry;
-        revise_properties.entry = entry;
-        revise_properties.entry_text.val(entry.text());
-        revise_properties.entry_link.val(entry.data('link'));
-        revise_properties.entry_description.val(entry.data('description'));
+    // //hook events on action buttons
+    // function edit(entry) {
+    //     revise_properties.entry = entry;
+    //     revise_properties.entry_text.val(entry.text());
+    //     revise_properties.entry_link.val(entry.data('link'));
+    //     revise_properties.entry_description.val(entry.data('description'));
 
-        revise_properties.radio_normal.attr('checked', 'checked');
-        revise_properties.radio_unread.attr('checked', 'checked');
+    //     revise_properties.radio_normal.attr('checked', 'checked');
+    //     revise_properties.radio_unread.attr('checked', 'checked');
 
-        var attributes = entry.attr('class').split(' ');
-        for (var index in attributes) {
-            var radioInput = $('#' + attributes[index]);
-            if (radioInput.length > 0) {
-                radioInput.attr('checked', 'checked');
-            }
-        }
+    //     var attributes = entry.attr('class').split(' ');
+    //     for (var index in attributes) {
+    //         var radioInput = $('#' + attributes[index]);
+    //         if (radioInput.length > 0) {
+    //             radioInput.attr('checked', 'checked');
+    //         }
+    //     }
 
-        revise_properties.panel.show();
-        revise_properties.panel.animate({ top: $(this).offset().top}, "slow", "swing");
-    });
+    //     revise_properties.panel.show();
+    //     revise_properties.panel.animate({ top: $(this).offset().top}, "slow", "swing");
+    // }
 
-    $('.action_panel > .close_button').on('click',  function() {
+    $('.action_panel > .close_button').on('click', function() {
         $(this).parent().fadeOut('fast');
     });
 
-    action_buttons.add_button.on('click', function() {
-        var entry = action_buttons.entry;
-        add_subs.entry = entry;
-        add_subs.panel.show();
-        add_subs.panel.animate({ top: entry.offset().top}, "slow", "swing");
-    });
+    // function addSubs(entry) {
+    //     add_subs.entry = entry;
+    //     add_subs.panel.show();
+    //     add_subs.panel.animate({ top: entry.offset().top}, "slow", "swing");
+    // }
 
-    $('#revise_view_container').on('hover', 'span',  function() {
-        var entry = $(this);
-        action_buttons.entry = entry;
-        entry.after(action_buttons.panel);
-    });
+    $('#revise_view_container').on('click', 'input',  function() {
+        console.dir(this);
+        var entry = $('#'+this.value);
+        switch (this.name) {
+            case 'editEntry' :
+                revise_properties.entry = entry;
+                revise_properties.entry_text.val(entry.text());
+                revise_properties.entry_link.val(entry.data('link'));
+                revise_properties.entry_description.val(entry.data('description'));
 
-    action_buttons.delete_button.on('click', function() {
-        var entry = action_buttons.entry;
-        //TODO: check if the entry has sibling DOM as child entry
-        action_buttons.secure();
-        sendServiceQuest('deleteEntry', { entryId: entry.attr("id")}
-            , function (data) {
-                console.log(data);
-                var result = $.parseJSON(data);
-                if (!result) {
-                    return;
-                    //raise some error
+                revise_properties.radio_normal.attr('checked', 'checked');
+                revise_properties.radio_unread.attr('checked', 'checked');
+
+                var attributes = entry.attr('class').split(' ');
+                for (var index in attributes) {
+                    var radioInput = $('#' + attributes[index]);
+                    if (radioInput.length > 0) {
+                        radioInput.attr('checked', 'checked');
+                    }
                 }
-                action_buttons.secure();
-                if (result.state == 'ok') {
-                   var newEntry = $(result.content);
-                   console.log(newEntry);
-                   var id = newEntry.attr('id');
-                   var dom = $('#'+id);
-                   dom.parent().html(newEntry);
-                   add_subs.entry_subContent.val("");
 
-                } else if (result.state == 'error') {
-                    showError(result);
-                }
-            });
-        
-        //entry.parent().remove();
+                revise_properties.panel.show();
+                revise_properties.panel.animate({ top: $(this).offset().top}, "slow", "swing");
+            break;
+            
+            case 'addSubs' :
+                add_subs.entry = entry;
+                add_subs.panel.show();
+                add_subs.panel.animate({ top: entry.offset().top}, "slow", "swing");
+            break;
+
+            case 'deleteEntry' :
+            //TODO: check if the entry has sibling DOM as child entry
+            sendServiceQuest('deleteEntry', { entryId: entry.attr("id")}
+                , function (data) {
+                    console.log(data);
+                    var result = $.parseJSON(data);
+                    if (!result) {
+                        return;
+                        //raise some error
+                    }
+                    if (result.state == 'ok') {
+                       var newEntry = $(result.content);
+                       console.log(newEntry);
+                       var id = newEntry.children(':eq(0)').attr('id');
+                       var dom = $('#'+id);
+                       dom.parent().parent().html(newEntry);
+                       add_subs.entry_subContent.val("");
+
+                    } else if (result.state == 'error') {
+                        showError(result);
+                    }
+                });
+            default:
+            break;
+        }
     });
 
     //hook events on revise properties
@@ -294,13 +301,12 @@ $tutorialName = $_GET["tutorial"];
                     return;
                     //raise some error
                 }
-                action_buttons.secure();
                 if (result.state == 'ok') {
                    var newEntry = $(result.content);
                    console.log(newEntry);
-                   var id = newEntry.attr('id');
+                   var id = newEntry.children(':eq(0)').attr('id');
                    var dom = $('#'+id);
-                   dom.parent().html(newEntry);
+                   dom.parent().parent().html(newEntry);
                    add_subs.entry_subContent.val("");
 
                 } else if (result.state == 'error') {
@@ -333,6 +339,7 @@ $tutorialName = $_GET["tutorial"];
     var error_summary = $('#error_summary').on('click', function() {
         this.style.display = 'none';
     });
+
     function showError(result) {
         error_summary.text(result.content.join('<br />')).fadeIn();
     }
