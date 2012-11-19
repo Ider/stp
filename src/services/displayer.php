@@ -310,15 +310,16 @@ class TutorialListDisplayer extends DisplayerBase{
 			//$name = str_replace('-', ' ', $tutorial->name);
 			$parameter = '?tutorial='. $tutorial->name;
 			if ($this->deletable) 
-				$deletebutton = '<input type="image" alt="Remove" name="remove" src="res/images/remove.png" value="'.$tutorial->name.'">';
+				$deletebutton = '<input type="image" alt="Remove Tutorial" name="removeTutorial" src="res/images/remove.png" value="'.$tutorial->name.'">';
 			$entryLayout = <<<EOD
 <tr>
-	<td><a href="acquireview.php$parameter">$tutorial->name</a></td>
 	<td>
-		<a href="acquireview.php$parameter" title="Acquire"><img alt="Read" src="res/images/acquire.png"></a>
-		<a href="reviseview.php$parameter" title="Revise"><img alt="Revise" src="res/images/revise.png"></a>
+		<a href="acquireview.php$parameter" title="Acquire Tutorial"><img alt="Read" src="res/images/acquire.png"></a>
+		<a href="reviseview.php$parameter" title="Revise Tutorial"><img alt="Revise" src="res/images/revise.png"></a>
+		<a href="download.php$parameter" title="Download Tutorial"><img alt="Download" src="res/images/download.png"></a>
 		$deletebutton
 	</td>
+	<td><a href="acquireview.php$parameter">$tutorial->name</a></td>
 </tr>
 EOD;
 			$this->layout .= $entryLayout;
@@ -328,7 +329,7 @@ EOD;
 			return false;
 		}
 
-		$this->layout = '<table><thead><tr><th>Tutorial Name</th><th width="170px">Action Options</th></tr></thead><tbody>'
+		$this->layout = '<table><thead><tr><th width="170px">Action Options</th><th>Tutorial Name</th></tr></thead><tbody>'
 				.$this->layout.'</tbody></table>';
 		return true;
 	}
