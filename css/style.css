@@ -105,6 +105,8 @@ li a { color:#000000; text-decoration: none; }
     color: #DDDDDD;
 }
 
+.deletedHightlight { background-color: #FFC6CA; }
+
 /*.action_panel div span {width: 70px; display: inline-block;}*/
 
 

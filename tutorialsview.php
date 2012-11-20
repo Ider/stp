@@ -34,7 +34,7 @@ $displayer->show();
         $.post(url, parameters, function(data) {
             var result = $.parseJSON(data);
             if (result.state == 'ok') {
-                seletedRow.css('background-color', '#FFC6CA').animate({ opacity: 0.0 },  "slow", function() {
+                seletedRow.addClass('deletedHightlight').fadeOut("slow", function() {
                     seletedRow.remove();
                 });
             } else if (result.state == 'error') {

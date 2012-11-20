@@ -231,12 +231,13 @@ $tutorialName = $_GET["tutorial"];
                         //raise some error
                     }
                     if (result.state == 'ok') {
-                       var newEntry = $(result.content);
-                       console.log(newEntry);
-                       var id = newEntry.children(':eq(0)').attr('id');
-                       var dom = $('#'+id);
-                       dom.parent().parent().html(newEntry);
-                       add_subs.entry_subContent.val("");
+                        entry.parent().addClass('deletedHightlight').fadeOut("slow", function() {
+                            var newEntry = $(result.content);
+                            var id = newEntry.children(':eq(0)').attr('id');
+                            var dom = $('#'+id);
+                            dom.parent().parent().html(newEntry);
+                            add_subs.entry_subContent.val("");
+                        });
 
                     } else if (result.state == 'error') {
                         showError(result);

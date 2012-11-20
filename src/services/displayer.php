@@ -212,6 +212,10 @@ EOD;
 	protected function layoutFooterForSubEntries($entry, $id) {
 		return '</ul>';
 	}
+
+	public function setDeletable($bool) {
+		$this->deletable = $bool;
+	}
 }
 
 class ReviseSubViewDisplayer extends ReviseViewDisplayer {

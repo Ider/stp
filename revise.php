@@ -64,6 +64,7 @@ switch ($act) {
         $entry = $reviser->addSubEntries($entryId, $val);
         if ($entry) {
             $displayer = new ReviseSubViewDisplayer($entry, $entryId);
+            $displayer->setDeletable($GLOBALS['deletable']);
             $displayer->generate();
             $result_content = $displayer->layout;
         }
@@ -76,6 +77,7 @@ switch ($act) {
 
         $entry = $reviser->deleteEntry($parentId, $childIndex);
         $displayer = new ReviseSubViewDisplayer($entry, $parentId);
+        $displayer->setDeletable($GLOBALS['deletable']);
         $displayer->generate();
         $result_content = $displayer->layout;
         break;
