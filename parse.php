@@ -9,7 +9,7 @@ $con = $_POST["HtmlContent"];
 // $mainEntryText = $_POST["mainEntry"];
 // $mainURL = $_POST["mainURL"];
 
-$parser = new AndroidTutorialParser();
+$parser = new jQueryListParser();
 $parser->homeURL = $_POST["homeURL"];
 $entry = $parser->parse($con);
 
@@ -46,6 +46,7 @@ echo '</textarea>';
     </tr>
 </table> -->
 Home URL: <br /><input type="text" name="homeURL" value="" size="75">
+<br/>
 <textarea cols="100" rows="20" name ="HtmlContent"></textarea>
 <br/>
 <input  value="Parse" type="submit"/>
