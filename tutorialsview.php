@@ -23,7 +23,7 @@ $displayer->show();
 (function ($) {
     var error_sumary = $('#error_sumary').addClass('error_message').hide();
     var seletedRow = null;
-    $('#tutorials_list').on('click', 'input[name="remove"]', function(){
+    $('#tutorials_list').on('click', 'input[name="removeTutorial"]', function(){
         var parameters = {
             act: "removeTutorial",
             tutorial: this.value,
