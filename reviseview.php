@@ -19,6 +19,7 @@ $tutorialName = $_GET["tutorial"];
 ?>
     </title>
     <link rel="stylesheet" type="text/css" href="./css/style.css" />
+
 </head>
 <body>
 
@@ -42,7 +43,7 @@ $tutorialName = $_GET["tutorial"];
 <?php if ($showPanel) { ?>
 
 
-
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
 <div id="revise_properties_panel" class="action_panel">
 <div id="revise_more_toggler" class="action_more_toggler">less</div>
     <table width="100%">
@@ -135,9 +136,12 @@ $tutorialName = $_GET["tutorial"];
 </div>
 
 <div id="error_summary" style="position:fixed; bottom:0px; right:0px; display:none;" class="error_message" title="Click to dismiss"></div>
+
+<style type="text/css">
+    
+
+</style>
 <script type="text/javascript">
-
-
 
 (function ($) {
     var revise_properties = {
@@ -344,9 +348,60 @@ $tutorialName = $_GET["tutorial"];
     function showError(result) {
         error_summary.text(result.content.join('<br />')).fadeIn();
     }
+
+    $( "ul" ).sortable(
+    {   handle: 'input[name="arrangeEntry"]' ,
+        cancel: '', 
+        connectWith: "ul",
+        placeholder : 'arrangeHighlight',
+        tolerance: "pointer",
+        // receive : function (e, ui) {
+        //     console.log('receive');
+        //     t = this;
+        //     u = ui;
+        // },
+        start : function (e, ui) {
+            ui.placeholder.height(ui.item.height());
+        },
+        stop : function (e, ui) {
+            console.log('stop');
+            console.log(this.parentNode);
+            console.dir(ui);
+            u = ui;
+            t = this;
+        },
+        // update : function (e, ui) {
+        //     console.log('update');
+        //     console.log(this.parentNode);
+        //     console.dir(ui);
+
+        // },
+        // out : function (e, ui) {
+        //     console.log('out');
+
+        // },
+        // remove : function (e, ui) {
+        //     console.log('remove');
+
+        // },
+        // change : function (e, ui) {
+        //     console.log('change');
+
+        // },
+        // over : function (e, ui) {
+        //     console.log('over');
+
+        // },        
+        // sort : function (e, ui) {
+        //     console.log('sort');
+
+        // },
+    });
     
 })(jQuery);
 
+var u;
+var t;
 </script>
 <?php } ?>
 </body>
