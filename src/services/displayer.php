@@ -22,7 +22,7 @@ abstract class DisplayerBase {
 
 abstract class TutorialDisplayerBase extends DisplayerBase {
     protected $tutorialName = '';
-	protected $entryIdBase = 'tutorialEntry_';
+	protected $entryIdBase = 'tutorialEntry';
 	protected $rootEntry = null;
 
 	function __construct($tutorialName = '') {
@@ -74,7 +74,7 @@ abstract class TutorialDisplayerBase extends DisplayerBase {
 
 		$index = 0;
 		foreach ($entry->subEntries as $child) {
-			$this->traverse($child, $this->entryIdBase . $index);
+			$this->traverse($child, $this->entryIdBase.'_'.$index);
 			$index++;
 		}
 
@@ -172,8 +172,8 @@ class ReviseViewDisplayer  extends TutorialDisplayerBase {
 	}
 
 	protected function layoutForRootEntry($entry) {
-		return sprintf('<h1 class="tutorial_root_entry"><a href="reviseview.php?tutorial=%s">%s</a></h1>'
-			, $this->tutorialName, htmlspecialchars($entry->text));
+		return sprintf('<h1 class="tutorial_root_entry"><a id="%s"  href="reviseview.php?tutorial=%s">%s</a></h1>'
+			,$this->entryIdBase, $this->tutorialName, htmlspecialchars($entry->text));
 	}
 	protected function layoutBeforeEntry($entry, $id) {
 		return '<li>';
@@ -227,8 +227,6 @@ class ReviseSubViewDisplayer extends ReviseViewDisplayer {
 	private $subRootEntry = null;
 
 	public function __construct($entry, $id) {
-		if (substr($id, -1) != '_') $id .= '_';
-
 		$this->subRootEntry = $entry;
 		$this->entryIdBase = $id;
 	}
@@ -238,7 +236,7 @@ class ReviseSubViewDisplayer extends ReviseViewDisplayer {
 	}
 
 	public function layoutForRootEntry($entry) {
-		return $this->layoutForEntry($entry, substr($this->entryIdBase,0 ,-1));
+		return $this->layoutForEntry($entry, $this->entryIdBase);
 	}
 }
 
