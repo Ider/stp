@@ -14,22 +14,31 @@ class Reviser {
 		return $this->rootEntry;
 	}
 
-	//$entryId is start with todoEntry, and indics in each sub entry levels
-	//concatenated with underline
+	/** 
+	 * 	$entryId is start with 'tutorialEntry', and indics in each sub entry levels
+	 * 	concatenated with '_'
+	 * 	@return TutorialEntry: 	the entry that indics specified with;
+	 *						 	if $entryId does not contain any index,  
+	 *								null will be returned instead of rootEntry;
+	 *						 	if indics do not indicate correct entry, an empty
+	 *								will be created and returned.
+	 */
 	public function getExactEntry($entryId) {
 		$indics = explode('_', $entryId);
-		$entry = $this->rootEntry;
 		$count = count($indics);
+		if ($count <= 1) return null;
+
+		$entry = $this->rootEntry;
 		for ($i=1; $i < $count; $i++) { 
-			$index = $indics[$i];
-			if (count($entry->subEntries)-1 < $index){
+			$index = intval($indics[$i]);
+			if ($index < 0 || count($entry->subEntries)-1 < $index){
 				$entry = null;
 				break;
 			}
 			$entry = $entry->subEntries[$index];
 		}
 
-		if (!$entry || $entry == $this->rootEntry) {
+		if (!$entry) {
 			Util::addError('Cannot find entry with ID: '.$entryId);
 			return new TutorialEntry();
 		}
@@ -74,13 +83,9 @@ class Reviser {
 	}
 
 	public function deleteEntry($parentId, $childIndex) {
-		// //It is going to remove from root
-		// if (!isset($indics[1])) {
-		// 	unset($this->rootEntry[$self]);
-		// 	return $this->rootEntry;
-		// }
-
 		$entry = $this->getExactEntry($parentId);
+		if ($entry == null) $entry = $this->rootEntry;
+
 		array_splice($entry->subEntries, $childIndex, 1);
 		return $entry;
 	}

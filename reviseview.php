@@ -156,41 +156,11 @@ $tutorialName = $_GET["tutorial"];
         entry_subContent: $('#entry_subContent'),
     };
 
-
-    // //hook events on action buttons
-    // function edit(entry) {
-    //     revise_properties.entry = entry;
-    //     revise_properties.entry_text.val(entry.text());
-    //     revise_properties.entry_link.val(entry.data('link'));
-    //     revise_properties.entry_description.val(entry.data('description'));
-
-    //     revise_properties.radio_normal.attr('checked', 'checked');
-    //     revise_properties.radio_unread.attr('checked', 'checked');
-
-    //     var attributes = entry.attr('class').split(' ');
-    //     for (var index in attributes) {
-    //         var radioInput = $('#' + attributes[index]);
-    //         if (radioInput.length > 0) {
-    //             radioInput.attr('checked', 'checked');
-    //         }
-    //     }
-
-    //     revise_properties.panel.show();
-    //     revise_properties.panel.animate({ top: $(this).offset().top}, "slow", "swing");
-    // }
-
     $('.action_panel > .close_button').on('click', function() {
         $(this).parent().fadeOut('fast');
     });
 
-    // function addSubs(entry) {
-    //     add_subs.entry = entry;
-    //     add_subs.panel.show();
-    //     add_subs.panel.animate({ top: entry.offset().top}, "slow", "swing");
-    // }
-
     $('#revise_view_container').on('click', 'input',  function() {
-        console.dir(this);
         var entry = $('#'+this.value);
         switch (this.name) {
             case 'editEntry' :
@@ -231,11 +201,11 @@ $tutorialName = $_GET["tutorial"];
                         //raise some error
                     }
                     if (result.state == 'ok') {
-                        entry.parent().addClass('deletedHightlight').fadeOut("slow", function() {
+                        entry.parent().parent().addClass('deletedHightlight').fadeOut("slow", function() {
                             var newEntry = $(result.content);
                             var id = newEntry.children(':eq(0)').attr('id');
                             var dom = $('#'+id);
-                            dom.parent().parent().html(newEntry);
+                            dom.parent().next().replaceWith(newEntry.eq(1));
                             add_subs.entry_subContent.val("");
                         });
 
