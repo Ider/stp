@@ -96,7 +96,7 @@ abstract class TutorialDisplayerBase extends DisplayerBase {
 
 			$index = 0;
 			foreach ($entry->subEntries as $child) {
-				$this->traverse($child, $id . '_' . $index);
+				$this->traverse($child, $id.'_'.$index);
 				$index++;
 			}
 
@@ -176,7 +176,7 @@ class ReviseViewDisplayer  extends TutorialDisplayerBase {
 			,$this->entryIdBase, $this->tutorialName, htmlspecialchars($entry->text));
 	}
 	protected function layoutBeforeEntry($entry, $id) {
-		return '<li>';
+		return '<li data-entryid="'.$id.'">';
 	}
 
 	protected function layoutForEntry($entry, $id) {
@@ -205,13 +205,15 @@ EOD;
 	}
 	
 	protected function layoutAfterEntry($entry, $id) {
-		if (!($entry->subEntries))  return '<ul data-entryId="'.$id.'"></ul></li>';
+		if (!($entry->subEntries))
+			//data attributes are forced to lowercase
+			return '<ul data-entryid="'.$id.'"></ul></li>';
 
 		return '</li>';
 	}
 	
 	protected function layoutHeaderForSubEntries($entry, $id) {
-		return '<ul data-entryId="'.$id.'">';
+		return '<ul data-entryid="'.$id.'">';
 	}
 	
 	protected function layoutFooterForSubEntries($entry, $id) {
