@@ -19,6 +19,7 @@ $needLoadEntry = array(
                 'setAttributes' => true,
                 'addSubEntries' => true,
                 'deleteEntry' => true,
+                'arrangeEntry' => true,
                 );
 if (isset($needLoadEntry[$act])) {
     $connector = new FileConnector($tutorialName);
@@ -70,6 +71,7 @@ switch ($act) {
         }
         
         break;
+//TODO: deleteEntry and arrayEntry should be exclusive, to prevent from conflict
     case 'deleteEntry':
         $indics = explode('_', $entryId);
         $childIndex = array_pop($indics);
@@ -80,6 +82,32 @@ switch ($act) {
         $displayer->setDeletable($GLOBALS['deletable']);
         $displayer->generate();
         $result_content = $displayer->layout;
+        break;
+    case 'arrangeEntry':
+        $newEntryId = $_REQUEST['newEntryId'];
+
+        $oldIndics = explode('_', $entryId);
+        $oldIndex = array_pop($oldIndics);
+        $oldParentId = implode('_', $oldIndics);
+
+        $newIndics = explode('_', $newEntryId);
+        $newIndex = array_pop($newIndics);
+        $newParentId = implode('_', $newIndics);
+
+        $entryArray = $reviser->arrangeEntry($oldParentId, $oldIndex, $newParentId, $newIndex);
+
+        //TODO: check containing relationship
+        $displayer1 = new ReviseSubViewDisplayer($entryArray[0], $oldParentId);
+        $displayer1->setDeletable($GLOBALS['deletable']);
+        $displayer1->generate();
+
+        $displayer2 = new ReviseSubViewDisplayer($entryArray[1], $newParentId);
+        $displayer2->setDeletable($GLOBALS['deletable']);
+        $displayer2->generate();
+        $result_content = array($displayer1->layout, $displayer2->layout);
+
+        //$revised = false;
+
         break;
     case 'removeTutorial':
         FileConnector::removeTutorial($tutorialName);

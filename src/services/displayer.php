@@ -194,9 +194,9 @@ class ReviseViewDisplayer  extends TutorialDisplayerBase {
 <div class="tutorial_entry_container">
 	<span id="$id" class="$entry->attributes" data-link="$link" data-description="$description" data-relatives="$relatives" >$text</span>
 	<div class="action_buttons_container">
-        <!--<input type="image" src="res/images/edit.gif" value="$id" name="editEntry"/>
+        <input type="image" src="res/images/edit.gif" value="$id" name="editEntry"/>
         <input type="image" src="res/images/add.gif" value="$id" name="addSubs"/>
-        $deleteBtn -->
+        $deleteBtn 
         $arrangeBtn
     </div>
 </div>

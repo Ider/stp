@@ -283,6 +283,7 @@ $tutorialName = $_GET["tutorial"];
     });
 
     function sendServiceQuest(action, parameters, callback) {
+        error_summary.hide();
         if(parameters.entryId == undefined) {
             var entry = null;
             if (action == 'addSubEntries')
@@ -290,8 +291,8 @@ $tutorialName = $_GET["tutorial"];
             else 
                 entry = revise_properties.entry;
 
-            if (!entry) return;
-            parameters.entryId = entry.attr('id');
+            if (entry)
+                parameters.entryId = entry.attr('id');
         }
 
 
@@ -303,60 +304,56 @@ $tutorialName = $_GET["tutorial"];
     }
 
     var error_summary = $('#error_summary').on('click', function() {
-        this.style.display = 'none';
+        error_summary.fadeOut();
     });
 
     function showError(result) {
         error_summary.text(result.content.join('<br />')).fadeIn();
     }
 
-    $( "ul" ).sortable(
+    var sortableUL = $( "ul" ).sortable(
     {   handle: 'input[name="arrangeEntry"]' ,
+        placeholder : 'arrangeHighlight',
+
         cancel: '', 
         connectWith: "ul",
-        placeholder : 'arrangeHighlight',
         tolerance: "pointer",
-        // receive : function (e, ui) {
-        //     console.log('receive');
-        //     t = this;
-        //     u = ui;
-        // },
         start : function (e, ui) {
             ui.placeholder.height(ui.item.height());
         },
         stop : function (e, ui) {
-            console.log('stop');
-            console.log(this.parentNode);
-            console.dir(ui);
-            u = ui;
-            t = this;
+            var entry = ui.item,
+                newParent = entry.parent(),
+                oldEntryId = entry.data('entryid'),
+                newParentEntryId = newParent.data('entryid');
+
+            var newEntryId = '', 
+                rawDom = entry.get(0);
+
+            newParent.children().each(function(index, elem) {
+                if (this == rawDom) {
+                    newEntryId = newParentEntryId + '_' + index;
+                    return false;
+                }
+            });
+            if (newEntryId == '') {
+                console.error('New entryId does not found');
+                return;
+            }
+            if (newEntryId == oldEntryId) return; //entry did not move
+
+            sendServiceQuest('arrangeEntry', {entryId: oldEntryId, newEntryId: newEntryId},
+                function(data){
+
+                    var result = $.parseJSON(data);
+                    if (result.state == 'ok') {
+console.log(result.content);
+                    } else if (result.state == 'error') {
+                        showError(result);
+                        sortableUL.sortable('cancel');
+                    }
+            });
         },
-        // update : function (e, ui) {
-        //     console.log('update');
-        //     console.log(this.parentNode);
-        //     console.dir(ui);
-
-        // },
-        // out : function (e, ui) {
-        //     console.log('out');
-
-        // },
-        // remove : function (e, ui) {
-        //     console.log('remove');
-
-        // },
-        // change : function (e, ui) {
-        //     console.log('change');
-
-        // },
-        // over : function (e, ui) {
-        //     console.log('over');
-
-        // },        
-        // sort : function (e, ui) {
-        //     console.log('sort');
-
-        // },
     });
     
 })(jQuery);
