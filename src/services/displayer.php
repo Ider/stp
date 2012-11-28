@@ -96,7 +96,7 @@ abstract class TutorialDisplayerBase extends DisplayerBase {
 
 			$index = 0;
 			foreach ($entry->subEntries as $child) {
-				$this->traverse($child, $id . '_' . $index);
+				$this->traverse($child, $id.'_'.$index);
 				$index++;
 			}
 
@@ -176,7 +176,7 @@ class ReviseViewDisplayer  extends TutorialDisplayerBase {
 			,$this->entryIdBase, $this->tutorialName, htmlspecialchars($entry->text));
 	}
 	protected function layoutBeforeEntry($entry, $id) {
-		return '<li>';
+		return '<li data-entryid="'.$id.'">';
 	}
 
 	protected function layoutForEntry($entry, $id) {
@@ -185,16 +185,19 @@ class ReviseViewDisplayer  extends TutorialDisplayerBase {
 		$description = htmlspecialchars($entry->description);
 		$relatives = json_encode($entry->relatives);
 		$deleteBtn ="";
-		if($this->deletable)
+		$arrangeBtn ="";
+		if($this->deletable) {
             $deleteBtn = '<input type="image" src="res/images/delete.gif" value="'.$id.'" name="deleteEntry"/>';
-    
+            $arrangeBtn = '<input type="image" src="res/images/arrange.png" value="'.$id.'" name="arrangeEntry"/>';
+    	}
 		$dom = <<<EOD
 <div class="tutorial_entry_container">
 	<span id="$id" class="$entry->attributes" data-link="$link" data-description="$description" data-relatives="$relatives" >$text</span>
 	<div class="action_buttons_container">
         <input type="image" src="res/images/edit.gif" value="$id" name="editEntry"/>
         <input type="image" src="res/images/add.gif" value="$id" name="addSubs"/>
-        $deleteBtn
+        $deleteBtn 
+        $arrangeBtn
     </div>
 </div>
 EOD;
@@ -202,11 +205,15 @@ EOD;
 	}
 	
 	protected function layoutAfterEntry($entry, $id) {
+		if (!($entry->subEntries))
+			//data attributes are forced to lowercase
+			return '<ul data-entryid="'.$id.'"></ul></li>';
+
 		return '</li>';
 	}
 	
 	protected function layoutHeaderForSubEntries($entry, $id) {
-		return '<ul>';
+		return '<ul data-entryid="'.$id.'">';
 	}
 	
 	protected function layoutFooterForSubEntries($entry, $id) {
@@ -307,19 +314,19 @@ class TutorialListDisplayer extends DisplayerBase{
 	public function generate() {
 		$this->layout = '';
 		$tutorials = FileConnector::getTutorialsFromFile();
-		$deletebutton = '';
+		$deleteBtn = '';
 		foreach ($tutorials as $tutorial) {
 			//$name = str_replace('-', ' ', $tutorial->name);
 			$parameter = '?tutorial='. $tutorial->name;
 			if ($this->deletable) 
-				$deletebutton = '<input type="image" alt="Remove Tutorial" name="removeTutorial" src="res/images/remove.png" value="'.$tutorial->name.'">';
+				$deleteBtn = '<input type="image" alt="Remove Tutorial" name="removeTutorial" src="res/images/remove.png" value="'.$tutorial->name.'">';
 			$entryLayout = <<<EOD
 <tr>
 	<td>
 		<a href="acquireview.php$parameter" title="Acquire Tutorial"><img alt="Read" src="res/images/acquire.png"></a>
 		<a href="reviseview.php$parameter" title="Revise Tutorial"><img alt="Revise" src="res/images/revise.png"></a>
 		<a href="download.php$parameter" title="Download Tutorial"><img alt="Download" src="res/images/download.png"></a>
-		$deletebutton
+		$deleteBtn
 	</td>
 	<td><a href="acquireview.php$parameter">$tutorial->name</a></td>
 </tr>

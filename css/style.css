@@ -6,14 +6,18 @@ body { min-width: 900px; font-family: Georgia;  margin:0;}
 .tutorial_frame { height: 90%; position: absolute; right: 0;  width: 70%; }
 
 
+.tutorial_entris_view ul {list-style-type: none; padding-top: 4px;}
 
 /* Tutorial Entry Style */
 .tutorial_entris_view li a {display: block;}
 .tutorial_entris_view li a:hover { background-color:#B4D5FF; }
 /* Tutorial Entry Revise Style */
-.tutorial_entris_view li span { cursor: pointer; line-height: 32px; }
+.tutorial_entris_view li span { cursor: pointer;}
 .tutorial_entris_view li span:hover { background-color:#B4D5FF; }
 .tutorial_entry_container .action_buttons_container {display: inline;}
+.tutorial_entry_container {height: 20px;}
+
+.arrangeHighlight { background-color: #DDEEFF; }
 
 .comprenhend { text-decoration:underline; font-weight: bold;}
 .scan{ text-decoration:underline; font-style: italic;}

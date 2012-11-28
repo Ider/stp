@@ -45,7 +45,7 @@ class Reviser {
 
 		return $entry;
 	}
-	
+
 	public function setText($entryId, $text) {
 		$text = trim($text);
 		if (empty($text)) {
@@ -88,5 +88,38 @@ class Reviser {
 
 		array_splice($entry->subEntries, $childIndex, 1);
 		return $entry;
+	}
+
+	/**
+	 * Arrange an entry from old parent to new parent, both of new and old parentId are associated
+	 * with **unarranged** tutorial list, oldIndex is also **unarranged**, but the newIndex would 
+	 * be position after **arranged**
+	 * 
+	 * @param  $oldParentId: the old parent entryId
+	 * @param  $oldIndex: the index in sub-entries of old parent
+	 * @param  $newParentId: the new parent entryId
+	 * @param  $newIndex    [description]
+	 * @return array: entry with two entries, the first element is old parent entry, the second is
+	 */
+	public function arrangeEntry($oldParentId, $oldIndex, $newParentId, $newIndex) {
+		//entry has not been arranged to different position
+		if ($oldParentId == $newParentId 
+			&& $oldIndex == $newIndex) 
+			return array(null, null);
+
+		$oldParent = $this->getExactEntry($oldParentId);
+		if ($oldParent == null) $oldParent = $this->rootEntry;
+
+		$newParent = $this->getExactEntry($newParentId);
+		if ($newParent == null) $newParent = $this->rootEntry;
+
+		$entry = array_splice($oldParent->subEntries, $oldIndex, 1);
+		if ($entry == null) {
+			Util::addError("Cannot find entry with Id: ${oldParentId}_${oldIndex}");
+			return array(null, null);
+		}
+		$entry = array_splice($newParent->subEntries, $newIndex, 0, $entry);
+
+		return array($oldParent, $newParent);	
 	}
 }
