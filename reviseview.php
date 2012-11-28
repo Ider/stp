@@ -196,10 +196,6 @@ $tutorialName = $_GET["tutorial"];
                 , function (data) {
                     console.log(data);
                     var result = $.parseJSON(data);
-                    if (!result) {
-                        return;
-                        //raise some error
-                    }
                     if (result.state == 'ok') {
                         entry.parent().parent().addClass('deletedHightlight').fadeOut("slow", function() {
                             var newEntry = $(result.content);
@@ -208,7 +204,6 @@ $tutorialName = $_GET["tutorial"];
                             dom.parent().next().replaceWith(newEntry.eq(1));
                             add_subs.entry_subContent.val("");
                         });
-
                     } else if (result.state == 'error') {
                         showError(result);
                     }
@@ -268,10 +263,6 @@ $tutorialName = $_GET["tutorial"];
         sendServiceQuest('addSubEntries', {subContent: val}
             , function (data) {
                 var result = $.parseJSON(data);
-                if (!result) {
-                    return;
-                    //raise some error
-                }
                 if (result.state == 'ok') {
                    var newEntry = $(result.content);
                    console.log(newEntry);
