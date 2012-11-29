@@ -26,10 +26,10 @@ $displayer->show();
     $('#tutorials_list').on('click', 'input[name="removeTutorial"]', function(){
         var parameters = {
             act: "removeTutorial",
-            tutorial: this.value,
+            tutorialName: this.value,
         }
         seletedRow = $(this).closest('tr');
-        var url = 'revise.php';
+        var url = 'start.php';
         error_sumary.hide();
         $.post(url, parameters, function(data) {
             var result = $.parseJSON(data);

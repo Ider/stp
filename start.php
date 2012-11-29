@@ -9,13 +9,12 @@ include_once 'src/utilities/response.php';
 
 $act = $_REQUEST['act'];
 
+$tutorialName = $_REQUEST['tutorialName'];
 switch ($act) {
     case 'validateName':
-        $tutorialName = $_REQUEST['tutorialName'];
         Starter::validateName($tutorialName);
         break;    
     case 'startTutorial':
-        $tutorialName = $_REQUEST['tutorialName'];
         $subContent = $_REQUEST['subContent'];
         $mainEntry = $_REQUEST['mainEntry'];
         $mainURL = $_REQUEST['mainURL'];
@@ -27,8 +26,12 @@ switch ($act) {
         $connector->saveEntries($rootEntry);
         break;
     
+    case 'removeTutorial':        
+        FileConnector::removeTutorial($tutorialName);
+        break;
+
     default:
-        # code...
+        Util::addError('Cannot response to act: '.$act);
         break;
 }
 
