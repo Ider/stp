@@ -95,16 +95,30 @@ switch ($act) {
         $newParentId = implode('_', $newIndics);
 
         $entryArray = $reviser->arrangeEntry($oldParentId, $oldIndex, $newParentId, $newIndex);
+        if (!$entryArray) break;
 
-        //TODO: check containing relationship
-        $displayer1 = new ReviseSubViewDisplayer($entryArray[0], $oldParentId);
-        $displayer1->setDeletable($GLOBALS['deletable']);
-        $displayer1->generate();
+        $result_content = array();
 
-        $displayer2 = new ReviseSubViewDisplayer($entryArray[1], $newParentId);
-        $displayer2->setDeletable($GLOBALS['deletable']);
-        $displayer2->generate();
-        $result_content = array($displayer1->layout, $displayer2->layout);
+        //if $oldParentId contains $newParentId, it means oldParent is sub entry of(or the same as) 
+        //newParent, then should not update oldParent, otherwise it is safe to update
+        if (strpos($oldParentId, $newParentId) === false) {
+            $displayer = new ReviseSubViewDisplayer($entryArray[0], $oldParentId);
+            $displayer->setDeletable($GLOBALS['deletable']);
+            $displayer->generate();
+            $result_content[] = $displayer->layout;
+        }
+        //if $newParentId contains $newParentId, it means newParent is sub entry of(or the same as) 
+        //oldParent, then should not update newParent, otherwise it is safe to update
+        if (strpos($newParentId, $oldParentId) === false 
+            //if condition reach here, two Ids are identical, need to update one and only one
+            || empty($result_content)) {
+            $displayer = new ReviseSubViewDisplayer($entryArray[1], $newParentId);
+            $displayer->setDeletable($GLOBALS['deletable']);
+            $displayer->generate();
+            $result_content[] = $displayer->layout;
+        }
+
+
 
         //$revised = false;
 

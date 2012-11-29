@@ -198,14 +198,10 @@ $tutorialName = $_GET["tutorial"];
             //TODO: check if the entry has sibling DOM as child entry
             sendServiceQuest('deleteEntry', { entryId: entry.attr("id")}
                 , function (data) {
-                    console.log(data);
                     var result = $.parseJSON(data);
                     if (result.state == 'ok') {
                         entry.parent().parent().addClass('deletedHightlight').fadeOut("slow", function() {
-                            var newEntry = $(result.content);
-                            var id = newEntry.children(':eq(0)').attr('id');
-                            var dom = $('#'+id);
-                            dom.parent().next().replaceWith(newEntry.eq(1));
+                            replaceContent(result.content);
                             add_subs.entry_subContent.val("");
                         });
                     } else if (result.state == 'error') {
@@ -259,7 +255,6 @@ $tutorialName = $_GET["tutorial"];
         }
     });
 
-
     //hook events on add subs
     $('#btnAddSubs').on('click', function() {
         var val = $.trim(add_subs.entry_subContent.val());
@@ -311,8 +306,20 @@ $tutorialName = $_GET["tutorial"];
         error_summary.text(result.content.join('<br />')).fadeIn();
     }
 
-    var sortableUL = $( "ul" ).sortable(
-    {   handle: 'input[name="arrangeEntry"]' ,
+    function replaceContent(content) {
+        var newEntry = $(content),
+            id = newEntry.children(':eq(0)').attr('id'),
+            entryContainer = $('#'+id).parent(),
+            subEntriesList = entryContainer.next();
+            
+            subEntriesList.replaceWith(newEntry.eq(1));
+
+            //make new entries list sortable
+            entryContainer.parent().find('ul').sortable(sortConfig);
+    }
+
+    var sortConfig = {
+        handle: 'input[name="arrangeEntry"]' ,
         placeholder : 'arrangeHighlight',
 
         cancel: '', 
@@ -347,14 +354,18 @@ $tutorialName = $_GET["tutorial"];
 
                     var result = $.parseJSON(data);
                     if (result.state == 'ok') {
-console.log(result.content);
+                        var contents = result.content;
+                        for (var i = 0; i < contents.length; i++) {
+                            replaceContent(contents[i]);
+                        };
                     } else if (result.state == 'error') {
                         showError(result);
                         sortableUL.sortable('cancel');
                     }
             });
         },
-    });
+    };
+    var sortableUL = $('ul').sortable(sortConfig);
     
 })(jQuery);
 

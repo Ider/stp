@@ -105,7 +105,7 @@ class Reviser {
 		//entry has not been arranged to different position
 		if ($oldParentId == $newParentId 
 			&& $oldIndex == $newIndex) 
-			return array(null, null);
+			return array();
 
 		$oldParent = $this->getExactEntry($oldParentId);
 		if ($oldParent == null) $oldParent = $this->rootEntry;
@@ -116,7 +116,7 @@ class Reviser {
 		$entry = array_splice($oldParent->subEntries, $oldIndex, 1);
 		if ($entry == null) {
 			Util::addError("Cannot find entry with Id: ${oldParentId}_${oldIndex}");
-			return array(null, null);
+			return array();
 		}
 		$entry = array_splice($newParent->subEntries, $newIndex, 0, $entry);
 
