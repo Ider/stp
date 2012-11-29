@@ -291,7 +291,7 @@ $tutorialName = $_GET["tutorial"];
         }
 
 
-        parameters.tutorial = $('#tutorialName').val();
+        parameters.tutorialName = $('#tutorialName').val();
         parameters.act = action;
 
         var url = 'revise.php';

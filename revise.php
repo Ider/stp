@@ -7,34 +7,22 @@ include_once 'src/utilities/response.php';
 include_once 'src/config.php';
 include_once 'security.php';
 
-$tutorialName = $_REQUEST['tutorial'];
+$tutorialName = $_REQUEST['tutorialName'];
 $act = $_REQUEST['act'];
 if (isset($_REQUEST['entryId']))$entryId = $_REQUEST['entryId'];
 
-$revised = false;
-$needLoadEntry = array(
-                'setText' => true,
-                'setLink' => true,
-                'setDescription' => true,
-                'setAttributes' => true,
-                'addSubEntries' => true,
-                'deleteEntry' => true,
-                'arrangeEntry' => true,
-                );
-if (isset($needLoadEntry[$act])) {
-    $connector = new FileConnector($tutorialName);
-    $rootEntry = $connector->loadEntries();
+$connector = new FileConnector($tutorialName);
+$rootEntry = $connector->loadEntries();
 
-    if (!$rootEntry) {
-        echo ResponseResult::create(ResponseResultState::ERROR
-                        , ResponseContentFormat::COLLECTION
-                        , Util::getErrors());
-        return;
-    }
-
-    $reviser = new Reviser($rootEntry);
-    $revised = true;
+if (!$rootEntry) {
+    echo ResponseResult::create(ResponseResultState::ERROR
+                    , ResponseContentFormat::COLLECTION
+                    , Util::getErrors());
+    return;
 }
+
+$reviser = new Reviser($rootEntry);
+$revised = true;
 
 $result_content = '';
 
@@ -117,14 +105,6 @@ switch ($act) {
             $displayer->generate();
             $result_content[] = $displayer->layout;
         }
-
-
-
-        //$revised = false;
-
-        break;
-    case 'removeTutorial':
-        FileConnector::removeTutorial($tutorialName);
         break;
 
     default:
