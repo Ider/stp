@@ -1,8 +1,8 @@
 <?php
 
-define('IS_PROD', false);
+define('IS_LOCAL', true);
 
-if (IS_PROD) {
+if (!IS_LOCAL) {
     define('DB_SERVER', 'localhost');
     define('DB_TABLE', 'stp');
     define('CONTENT_DIR', dirname(__FILE__).'/../res/content/');
