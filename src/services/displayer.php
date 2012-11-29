@@ -316,7 +316,6 @@ class TutorialListDisplayer extends DisplayerBase{
 		$tutorials = FileConnector::getTutorialsFromFile();
 		$deleteBtn = '';
 		foreach ($tutorials as $tutorial) {
-			//$name = str_replace('-', ' ', $tutorial->name);
 			$parameter = '?tutorial='. $tutorial->name;
 			if ($this->deletable) 
 				$deleteBtn = '<input type="image" alt="Remove Tutorial" name="removeTutorial" src="res/images/remove.png" value="'.$tutorial->name.'">';
