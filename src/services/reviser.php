@@ -28,17 +28,11 @@ class Reviser {
 		$count = count($indics);
 		if ($count <= 1) return null;
 
-		$entry = $this->rootEntry;
-		for ($i=1; $i < $count; $i++) { 
-			$index = intval($indics[$i]);
-			if ($index < 0 || count($entry->subEntries)-1 < $index){
-				$entry = null;
-				break;
-			}
-			$entry = $entry->subEntries[$index];
-		}
+		array_shift($indics);
 
-		if (!$entry) {
+		$entry = TutorialEntry::findByIndexOf($this->rootEntry, $indics);
+
+		if ($entry == null) {
 			Util::addError('Cannot find entry with ID: '.$entryId);
 			return new TutorialEntry();
 		}
@@ -74,7 +68,7 @@ class Reviser {
 
 	public function addSubEntries($entryId, $subContent) {
 		$subEntries = TutorialEntry::getEntriesFromContent($subContent);
-		if (!$subEntries) {
+		if ($subEntries == null) {
 			return null;
 		}
 		$entry = $this->getExactEntry($entryId);

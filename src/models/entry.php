@@ -68,4 +68,35 @@ class TutorialEntry {
 
         return true;
     }
+    
+    /**
+     * Find sub entry that follow with the $index path in $entry, this static method is reverd
+     *     stdClass that generated from json_encode
+     * @param  mix   $entry: entry that index path looking into
+     * @param  array $index: sub entry index path, $index will be cast to array if it is not
+     * @return TutorialEntry: sub entry with the $index, or null if entry can not find
+     */
+    public static function findByIndexOf($entry, $index){
+        if (empty($index)) return null;
+        $indics = (array)$index;
+        $count = count($indics);
+        for ($i=0; $i < $count; $i++) { 
+            $index = intval($indics[$i]);
+            
+            if ($index < 0 || count($entry->subEntries)-1 < $index) return null;
+
+            $entry = $entry->subEntries[$index];
+        }
+
+        return $entry;
+    }
+
+    /**
+     * Find sub entry that follow with the $index path in this entry
+     * @param  array $index: sub entry index path, $index will be cast to array if it is not
+     * @return TutorialEntry: return self::findByIndexOf($this, $index);
+     */
+    public function findByIndex($index) {
+        return self::findByIndexOf($this, $index);
+    }
 }
