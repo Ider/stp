@@ -187,15 +187,15 @@ class ReviseViewDisplayer  extends TutorialDisplayerBase {
 		$deleteBtn ="";
 		$arrangeBtn ="";
 		if($this->deletable) {
-            $deleteBtn = '<input type="image" src="res/images/delete.gif" value="'.$id.'" name="deleteEntry"/>';
-            $arrangeBtn = '<input type="image" src="res/images/arrange.png" value="'.$id.'" name="arrangeEntry"/>';
+            $deleteBtn = '<input type="image" src="res/images/revise_delete.png" value="'.$id.'" name="deleteEntry"/>';
+            $arrangeBtn = '<input type="image" src="res/images/revise_arrange.png" value="'.$id.'" name="arrangeEntry"/>';
     	}
 		$dom = <<<EOD
 <div class="tutorial_entry_container">
 	<span id="$id" class="$entry->attributes" data-link="$link" data-description="$description" data-relatives="$relatives" >$text</span>
 	<div class="action_buttons_container">
-        <input type="image" src="res/images/edit.gif" value="$id" name="editEntry"/>
-        <input type="image" src="res/images/add.gif" value="$id" name="addSubs"/>
+        <input type="image" src="res/images/revise_edit.png" value="$id" name="editEntry"/>
+        <input type="image" src="res/images/revise_add.png" value="$id" name="addSubs"/>
         $deleteBtn 
         $arrangeBtn
     </div>
