@@ -111,7 +111,7 @@ $tutorialName = $_GET["tutorial"];
             <td class="caption">Sub Entries</td>
         </tr>
         <tr>
-            <td><textarea id="entry_subContent" rows="7" cols="62" name="subContent"></textarea></td>
+            <td><textarea id="entry_subContent" rows="7" name="subContent" style="width:450px"></textarea></td>
         </tr>
         <tr>
             <td align="right"><button id="btnAddSubs">Add Subs</button></td>
