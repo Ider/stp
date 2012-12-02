@@ -121,14 +121,6 @@ $tutorialName = $_GET["tutorial"];
 </div>
 
 <div id="action_service" style="display: none;">
-    <div id="action_buttons_panel">
-        <input type="image" src="res/images/edit.gif" id="edit_button"/>
-        <input type="image" src="res/images/add.gif" id="add_button"/>
-    <?php
-        if($deletable)
-            echo '<input type="image" src="res/images/delete.gif" id="delete_button"/>';
-    ?>
-    </div>
     <input id="entry_Id" type="hidden" name="entryId" />
     <input id="act" type="hidden" name="act" value="setAttributes"/>
     <input id="entry_attributes" type="hidden" name="entry_attributes" value=""/>
@@ -312,10 +304,11 @@ $tutorialName = $_GET["tutorial"];
             entryContainer = $('#'+id).parent(),
             subEntriesList = entryContainer.next();
             
-            subEntriesList.replaceWith(newEntry.eq(1));
+        subEntriesList.replaceWith(newEntry.eq(1));
 
-            //make new entries list sortable
-            entryContainer.parent().find('ul').sortable(sortConfig);
+        //make new entries list sortable
+        entryContainer.parent().find('ul').sortable(sortConfig);
+        sortableULs = $('ul');
     }
 
     var sortConfig = {
@@ -360,12 +353,13 @@ $tutorialName = $_GET["tutorial"];
                         };
                     } else if (result.state == 'error') {
                         showError(result);
-                        sortableUL.sortable('cancel');
+                        sortableULs.sortable('cancel');
                     }
             });
         },
     };
-    var sortableUL = $('ul').sortable(sortConfig);
+    var sortableULs = $('ul');
+    sortableULs.sortable(sortConfig);
     
 })(jQuery);
 
