@@ -187,15 +187,16 @@ class ReviseViewDisplayer  extends TutorialDisplayerBase {
 		$deleteBtn ="";
 		$arrangeBtn ="";
 		if($this->deletable) {
-            $deleteBtn = '<input type="image" src="res/images/revise_delete.png" value="'.$id.'" name="deleteEntry"/>';
-            $arrangeBtn = '<input type="image" src="res/images/revise_arrange.png" value="'.$id.'" name="arrangeEntry"/>';
+            $deleteBtn = '<input type="image" src="res/images/revise_delete.png" value="'.$id.'" name="deleteEntry" title="Delete Entry" alt="Delete Entry"/>';
+            $arrangeBtn = '<input type="image" src="res/images/revise_arrange.png" value="'.$id.'" name="arrangeEntry" title="Hold and Move to Arrange Entry" alt="Arrange Entry"/>';
     	}
 		$dom = <<<EOD
 <div class="tutorial_entry_container">
 	<span id="$id" class="$entry->attributes" data-link="$link" data-description="$description" data-relatives="$relatives" >$text</span>
 	<div class="action_buttons_container">
-        <input type="image" src="res/images/revise_edit.png" value="$id" name="editEntry"/>
-        <input type="image" src="res/images/revise_add.png" value="$id" name="addSubs"/>
+        <input type="image" src="res/images/revise_edit.png" value="$id" name="editEntry" title="Edit Entry" alt="Edit Entry"/>
+        <input type="image" src="res/images/revise_add.png" value="$id" name="addSubs" title="Add SubEntries" alt="Add Subentries"/>
+        <input type="image" src="res/images/revise_download.png" value="$id" name="downloadEntry" title="Download Entry" alt="Download Entry"/>
         $deleteBtn 
         $arrangeBtn
     </div>

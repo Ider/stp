@@ -188,8 +188,8 @@ $tutorialName = $_GET["tutorial"];
 
             case 'deleteEntry' :
             //TODO: check if the entry has sibling DOM as child entry
-            sendServiceQuest('deleteEntry', { entryId: entry.attr("id")}
-                , function (data) {
+            sendServiceQuest('deleteEntry', { entryId: entry.attr("id")},
+                function (data) {
                     var result = $.parseJSON(data);
                     if (result.state == 'ok') {
                         entry.parent().parent().addClass('deletedHightlight').fadeOut("slow", function() {
@@ -200,6 +200,16 @@ $tutorialName = $_GET["tutorial"];
                         showError(result);
                     }
                 });
+            break;
+
+            case 'downloadEntry' :
+                var url = "download.php?tutorial=" + $('#tutorialName').val()
+                            + "&entryId=" + this.value;
+   
+                window.open(url, '_self');
+
+            break;
+
             default:
             break;
         }
